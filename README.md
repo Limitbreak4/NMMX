@@ -8,6 +8,6 @@ Y mi cambio es que escribiré unas palabras de mi insipiración: En algún lugar
 
 *****************************************
 *										*
-* 	ESTE CAMBIO LO HICE EN MI COMPU		*
+* ESTE CAMBIO LO HICE EN MI COMPU v2.0  *
 *										*
 *****************************************
