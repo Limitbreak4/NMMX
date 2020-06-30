@@ -1,0 +1,65 @@
+﻿.titulo {
+    color: navy;
+    font-weight: bold;
+    text-align: center;
+    border-width: 0px;
+    border-style: none;
+}
+
+#chart {
+    /*position: relative;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    margin: auto;
+    width: 330px;
+    height: 350px;*/
+}
+
+    #chart label {
+        //position: absolute;
+        //bottom: -66px;
+        //right: 40px;
+        font-size: 16px;
+        font-family: arial;
+    }
+
+    #chart svg .bar {
+        fill: #1470d0;
+        transition: 0.2s ease-out;
+    }
+
+        #chart svg .bar:hover {
+            fill: #021460;
+            transition: 0.2s ease-out;
+        }
+
+    #chart svg .axis--x path {
+        display: none;
+    }
+
+    #chart svg .axis--label {
+        fill: #021460;
+    }
+
+    #chart .annotation {
+        margin: 0;
+        margin-left: 0.4em;
+        font-size: 16px;
+    }
+
+        #chart .annotation a {
+            display: inline-block;
+            padding-botom: 4px;
+            color: #021460;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(0, 0, 0, .4);
+            transition: 0.2s ease-out;
+        }
+
+            #chart .annotation a:hover {
+                border-bottom: 1px dotted rgba(0, 0, 0, 1);
+                transition: 0.2s ease-out;
+            }
+
