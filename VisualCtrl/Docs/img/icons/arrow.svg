@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="12px" viewBox="0 0 8 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Path 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Wireframes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="mob_00" transform="translate(-37.000000, -95.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="Group-8" transform="translate(26.000000, 27.000000)">
+                <g id="Group-15-Copy" transform="translate(0.000000, 49.000000)">
+                    <polyline id="Path-2" transform="translate(15.000000, 25.000000) rotate(-90.000000) translate(-15.000000, -25.000000) " points="10 22 15.0579184 28 20 22"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
