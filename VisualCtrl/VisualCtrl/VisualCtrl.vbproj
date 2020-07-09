@@ -244,7 +244,6 @@
     <Content Include="Img\Vincular.png" />
     <Content Include="Img\XML.png" />
     <Content Include="Img\Zip.png" />
-    <Content Include="Marketing\grafica.aspx" />
     <Content Include="Marketing\Img\Icon-192.png" />
     <Content Include="PopCoverage.css" />
     <Content Include="visitas.css" />
@@ -412,13 +411,6 @@
     </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Marketing\grafica.aspx.designer.vb">
-      <DependentUpon>grafica.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Marketing\grafica.aspx.vb">
-      <DependentUpon>grafica.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Modulos\modMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

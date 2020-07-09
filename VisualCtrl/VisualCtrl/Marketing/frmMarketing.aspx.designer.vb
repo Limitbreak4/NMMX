@@ -14,6 +14,150 @@ Option Explicit On
 Partial Public Class frmMarketing
 
     '''<summary>
+    '''hfLIFsProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfLIFsProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hfLIFsOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfLIFsOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hfAssignedProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfAssignedProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hfAssignedOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfAssignedOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hfNotAssignedProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfNotAssignedProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hfNotAssignedOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfNotAssignedOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hfAssignationRateProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfAssignationRateProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''hfAssignationRateOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfAssignationRateOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtLifsOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtLifsOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtLifsProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtLifsProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtAssignedOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAssignedOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtAssignedProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAssignedProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtVisitedOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtVisitedOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtVisitedProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtVisitedProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtCompletedOB control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCompletedOB As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
+    '''txtCompletedProp control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCompletedProp As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''Button1 control.
     '''</summary>
     '''<remarks>
@@ -32,137 +176,20 @@ Partial Public Class frmMarketing
     Protected WithEvents GridView1 As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''TotalVisits control.
+    '''mesesJSON control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents TotalVisits As Global.System.Web.UI.WebControls.HiddenField
+    Protected WithEvents mesesJSON As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
-    '''OBTotalVisits control.
+    '''totalMerchants control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents OBTotalVisits As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''PropTotalVisits control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents PropTotalVisits As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''TotalPopCoverage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents TotalPopCoverage As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''OrganicPop control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents OrganicPop As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''PlacedPop control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents PlacedPop As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''OBtotal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents OBtotal As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''PropTotal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents PropTotal As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''OBorganic control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents OBorganic As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''Proporganic control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Proporganic As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''OBplaced control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents OBplaced As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''Propplaced control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Propplaced As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''CompletedJSON control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents CompletedJSON As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''DownstreamJSON control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents DownstreamJSON As Global.System.Web.UI.WebControls.HiddenField
-
-    '''<summary>
-    '''MesesJSON control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents MesesJSON As Global.System.Web.UI.WebControls.HiddenField
+    Protected WithEvents totalMerchants As Global.System.Web.UI.WebControls.HiddenField
 End Class
