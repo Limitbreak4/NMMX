@@ -685,6 +685,78 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:VisualCtrl.frmMarketing._txtLifsOB">
+<summary>
+txtLifsOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtLifsProp">
+<summary>
+txtLifsProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtAssignedOB">
+<summary>
+txtAssignedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtAssignedProp">
+<summary>
+txtAssignedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtVisitedOB">
+<summary>
+txtVisitedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtVisitedProp">
+<summary>
+txtVisitedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtCompletedOB">
+<summary>
+txtCompletedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtCompletedProp">
+<summary>
+txtCompletedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:VisualCtrl.frmMarketing._Button1">
 <summary>
 Button1 control.
@@ -697,6 +769,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:VisualCtrl.frmMarketing._GridView1">
 <summary>
 GridView1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._dropDownCampaigns">
+<summary>
+dropDownCampaigns control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -721,9 +802,45 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:VisualCtrl.frmNewAssignment._dropCampaigns">
+<summary>
+dropCampaigns control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:VisualCtrl.frmNewAssignment._fu">
 <summary>
 fu control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmNewAssignment._chkBlitz1">
+<summary>
+chkBlitz1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmNewAssignment._chkBlitz2">
+<summary>
+chkBlitz2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmNewAssignment._chkBlitz3">
+<summary>
+chkBlitz3 control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -795,38 +912,38 @@ To modify move field declaration from designer file to code-behind file.
 </member>
 <member name="F:VisualCtrl.frmPrevAssignment._dropDates">
 <summary>
-Control dropDates.
+dropDates control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmPrevAssignment._grdAsignmentData">
 <summary>
-Control grdAsignmentData.
+grdAsignmentData control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmPrevAssignment._grdSummary">
 <summary>
-Control grdSummary.
+grdSummary control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmPrevAssignment._imgGraph">
 <summary>
-Control imgGraph.
+imgGraph control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmReadyBlitz._grdMex50">
@@ -883,6 +1000,132 @@ Campo generado automáticamente.
 Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
 </remarks>
 </member>
+<member name="F:VisualCtrl.WebForm2._UpdatePanel1">
+<summary>
+UpdatePanel1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._fuValidation">
+<summary>
+fuValidation control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._cmdValidate">
+<summary>
+cmdValidate control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._UpdateProgress1">
+<summary>
+UpdateProgress1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hlDownload">
+<summary>
+hlDownload control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfJSONresult">
+<summary>
+hfJSONresult control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfTotal">
+<summary>
+hfTotal control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfNotOK">
+<summary>
+hfNotOK control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfGeo1">
+<summary>
+hfGeo1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfGeo2">
+<summary>
+hfGeo2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfBlitzGeo1">
+<summary>
+hfBlitzGeo1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfBlitzGeo2">
+<summary>
+hfBlitzGeo2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfBlitzGeo3">
+<summary>
+hfBlitzGeo3 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm2._hfFileName">
+<summary>
+hfFileName control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:VisualCtrl.AgencyMaster._Menu1">
 <summary>
 Control Menu1.
@@ -928,31 +1171,40 @@ Campo generado automáticamente.
 Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
 </remarks>
 </member>
-<member name="F:VisualCtrl.SiteMaster._Menu1">
+<member name="F:VisualCtrl.SiteMaster._StylePlaceholder">
 <summary>
-Control Menu1.
+StylePlaceholder control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.SiteMaster._Menu1">
+<summary>
+Menu1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.SiteMaster._lblPage">
 <summary>
-Control lblPage.
+lblPage control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.SiteMaster._MainContent">
 <summary>
-Control MainContent.
+MainContent control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.Agency_Mobile._Head1">
@@ -1061,6 +1313,33 @@ Control ViewSwitcher1.
 <remarks>
 Campo generado automáticamente.
 Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm1._HiddenField1">
+<summary>
+HiddenField1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm1._Button1">
+<summary>
+Button1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm1._HiddenField2">
+<summary>
+HiddenField2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 </members>

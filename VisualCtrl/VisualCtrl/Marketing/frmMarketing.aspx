@@ -71,6 +71,15 @@
             </td>
             <td style="width: 600px;">
                 <table>
+                    <tr>
+                        <td>
+                            <asp:DropDownList ID="dropDownCampaigns" runat="server">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
                     <tr style="border-style: solid; border-width: 2px">
                         <td class="primeracolumna" style="width: 70px">Portfolio</td>
                         <td class="encabezado" style="width: 50px">LIFs</td>
@@ -97,7 +106,7 @@
                         <td class="primeracolumna" style="width: 60px">OptBlue</td>
                         <td class="celda" style="border-style: solid;"><%=txtLifsOB.Value  %></td>
                         <td class="celda" style="border-style: solid;"><%=String.Format("{0:n0}", Integer.Parse(hfNotAssignedOB.Value.ToString()))  %></td>
-                        <td class="celda" style="border-style: solid;"><%=txtAssignedOB.Value  %></td>
+                        <td class="celda" style="border-style: solid;"><%=txtAssignedOB.Value %></td>
                         <td class="celda" style="border-style: solid;"><%=hfAssignationRateOB.Value %>%</td>
                         <td class="celda" style="border-style: solid;">13</td>
                         <td class="celda" style="border-style: solid;">14</td>

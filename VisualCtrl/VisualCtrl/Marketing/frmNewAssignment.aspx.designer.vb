@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class frmNewAssignment
 
     '''<summary>
+    '''dropCampaigns control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dropCampaigns As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''fu control.
     '''</summary>
     '''<remarks>
@@ -21,6 +30,33 @@ Partial Public Class frmNewAssignment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents fu As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''chkBlitz1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkBlitz1 As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''chkBlitz2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkBlitz2 As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''chkBlitz3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkBlitz3 As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''cmdIniciaProces control.

@@ -8,7 +8,7 @@
         </tr>
         <tr>
             <td style="vertical-align: top">
-                <asp:DropDownList ID="dropDates" runat="server" Width="200px" AutoPostBack="True">
+                <asp:DropDownList ID="dropDates" runat="server" Width="536px" AutoPostBack="True" Height="22px">
                 </asp:DropDownList>
             </td>
             <td style="vertical-align: top">

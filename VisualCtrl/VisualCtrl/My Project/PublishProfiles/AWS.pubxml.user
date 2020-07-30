@@ -7,7 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA+OKdRSsHkU+V0+UKhNMvhgAAAAACAAAAAAAQZgAAAAEAACAAAADNT4gtKBvSQXdkeipH8xtcwr26Ypls1v1jLUfof4k7ZgAAAAAOgAAAAAIAACAAAAAm+33J6ljEl9SIWOqZYw7xkCKtpuQ5r02AoaXsPErvAiAAAABDXH7bT6Y/ScDBqfDUyH+QdU0lCuiZ4ZBb+V9RNfccDkAAAADKO3tkazwglT0Gwpm2BfU80qcg5/Zf29geTXioQwkXmK0hBUU33+KaPQUrtUE+TNVMKUPOiRf7dvtNuxrDEHfu</EncryptedPassword>
-    <_PublishTargetUrl>ftp://18.188.237.15/wwwroot</_PublishTargetUrl>
+    <_PublishTargetUrl>ftp://13.58.187.205/wwwroot</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include=".editorconfig">
@@ -176,13 +176,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/11/2014 15:26:04</publishTime>
     </File>
     <File Include="bin/VisualCtrl.dll">
-      <publishTime>06/26/2020 04:36:09</publishTime>
+      <publishTime>07/09/2020 17:47:05</publishTime>
     </File>
     <File Include="bin/VisualCtrl.pdb">
-      <publishTime>06/26/2020 04:36:09</publishTime>
+      <publishTime>07/09/2020 17:47:05</publishTime>
     </File>
     <File Include="bin/WebForms_Basic.xml">
-      <publishTime>06/26/2020 04:36:09</publishTime>
+      <publishTime>07/09/2020 17:47:05</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -431,7 +431,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/27/2020 12:22:32</publishTime>
     </File>
     <File Include="Marketing/frmMarketing.aspx">
-      <publishTime>05/29/2020 02:43:56</publishTime>
+      <publishTime>07/07/2020 20:41:24</publishTime>
     </File>
     <File Include="Marketing/frmNewAssignment.aspx">
       <publishTime>06/24/2020 18:05:55</publishTime>
@@ -569,7 +569,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/29/2020 02:07:11</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/24/2020 19:18:45</publishTime>
+      <publishTime>07/09/2020 17:47:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

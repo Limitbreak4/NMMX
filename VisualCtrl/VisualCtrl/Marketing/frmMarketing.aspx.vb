@@ -2,9 +2,21 @@
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("idUsuario") = "" Then
+            Response.Redirect("~/Default.aspx")
+        End If
 
         TryCast(Master.FindControl("lblPage"), Label).Text = "Marketing Main Page"
         'Add CSS files
+        Dim rdrCampañas As DataSet = dsOpenDB("select distinct([FILE]) as 'ids' from ARCHIVOS_DATA (nolock)")
+        Dim campañas() As DataRow = rdrCampañas.Tables(0).Select("1 = 1")
+        Dim i As Integer
+        For i = 0 To campañas.Count - 1
+            Try
+                dropDownCampaigns.Items.Add(campañas(i).Item("ids"))
+            Catch
+            End Try
+        Next
 
         Dim rdrMerchants As DataSet = dsOpenDB("select * from archivos_data (nolock)")
         Dim countPropDataRow() As DataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'PROP'")
@@ -96,4 +108,7 @@
 
     End Sub
 
+    Private Sub dropDownCampaigns_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dropDownCampaigns.SelectedIndexChanged
+
+    End Sub
 End Class

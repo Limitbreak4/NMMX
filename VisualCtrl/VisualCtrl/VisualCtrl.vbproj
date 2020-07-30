@@ -68,7 +68,35 @@
     <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -189,6 +217,9 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="Marketing\status.aspx" />
+    <Content Include="Marketing\frmDataValidaton.aspx" />
+    <Content Include="WebForm1.aspx" />
     <None Include="My Project\PublishProfiles\AWS.pubxml" />
     <None Include="My Project\PublishProfiles\CustomProfile.pubxml" />
     <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
@@ -246,6 +277,7 @@
     <Content Include="Img\Zip.png" />
     <Content Include="Marketing\Img\Icon-192.png" />
     <Content Include="PopCoverage.css" />
+    <Content Include="TestBar.html" />
     <Content Include="visitas.css" />
     <Content Include="Scripts\barChart.js" />
     <Content Include="Scripts\barMes.js" />
@@ -312,6 +344,7 @@
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Clases\clsEvaluacion.vb" />
     <Compile Include="Clases\clsArchivo.vb" />
     <Compile Include="Clases\clsAsignacion.vb" />
     <Compile Include="Clases\clsRecord.vb" />
@@ -412,6 +445,20 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Marketing\status.aspx.designer.vb">
+      <DependentUpon>status.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Marketing\status.aspx.vb">
+      <DependentUpon>status.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Marketing\frmDataValidaton.aspx.designer.vb">
+      <DependentUpon>frmDataValidaton.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Marketing\frmDataValidaton.aspx.vb">
+      <DependentUpon>frmDataValidaton.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Modulos\modMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -467,6 +514,13 @@
     <Compile Include="Site.Mobile.Master.designer.vb">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="WebForm1.aspx.designer.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -506,6 +560,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Log\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
