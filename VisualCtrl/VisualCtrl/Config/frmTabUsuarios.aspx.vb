@@ -14,8 +14,8 @@
         End If
     End Sub
     Private Sub INICIALIZAR_FORM()
-        'CARGAR_COMBO(dropRol, "SELECT * FROM TAB_ROLES WHERE FLG_CANC = 0 ORDER BY DESC_ROLE", "ID_ROLE", "DESC_ROLE")
-        CARGAR_COMBO(dropAgencia, "SELECT * FROM TAB_AGENCIA WHERE FLG_CANC = 0 ORDER BY DESC_AGENCIA", "ID_AGENCIA", "DESC_AGENCIA", True)
+        CARGAR_COMBO(dropRol, "SELECT * FROM TAB_ROLES WHERE FLG_CANC = 0 ORDER BY DESC_ROLE", "ID_ROLE", "", "DESC_ROLE", True)
+        CARGAR_COMBO(dropAgencia, "SELECT * FROM TAB_AGENCIA WHERE FLG_CANC = 0 ORDER BY DESC_AGENCIA", "ID_AGENCIA", "", "DESC_AGENCIA", True)
     End Sub
     Protected Sub LIMPIARbutton_Click(sender As Object, e As ImageClickEventArgs) Handles LIMPIARbutton.Click
         LIMPIAR_CAMPOS()
@@ -143,5 +143,9 @@
         chkAdmin.Checked = cUsuario.flgAdmin
         chkflgCanc.Checked = cUsuario.flgCanc
         chkContacto.Checked = cUsuario.FLG_CONTACTO_AGENCIA
+    End Sub
+
+    Protected Sub dropAgencia_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dropAgencia.SelectedIndexChanged
+
     End Sub
 End Class

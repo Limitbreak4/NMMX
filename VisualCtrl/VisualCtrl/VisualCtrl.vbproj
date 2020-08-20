@@ -189,6 +189,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\hourglass.gif" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -201,6 +202,7 @@
     <Content Include="Img\contacto.png" />
     <Content Include="Img\Icon-192.png" />
     <Content Include="barChart.css" />
+    <Content Include="Log\dummy.txt" />
     <Content Include="Marketing\frmMarketing.aspx" />
     <Content Include="Marketing\frmNewAssignment.aspx" />
     <Content Include="Marketing\frmPrevAssignment.aspx" />
@@ -223,6 +225,7 @@
     <None Include="My Project\PublishProfiles\AWS.pubxml" />
     <None Include="My Project\PublishProfiles\CustomProfile.pubxml" />
     <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="My Project\PublishProfiles\OgilvyFolder.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Img\Aceptar.png" />
     <Content Include="Img\Agregar.gif" />
@@ -559,7 +562,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Log\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>

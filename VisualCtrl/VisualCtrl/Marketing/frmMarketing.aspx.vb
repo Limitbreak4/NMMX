@@ -8,34 +8,39 @@
 
         TryCast(Master.FindControl("lblPage"), Label).Text = "Marketing Main Page"
         'Add CSS files
-        Dim rdrCampañas As DataSet = dsOpenDB("select distinct([FILE]) as 'ids' from ARCHIVOS_DATA (nolock)")
-        Dim campañas() As DataRow = rdrCampañas.Tables(0).Select("1 = 1")
+        Dim rdrArchivos As DataSet = dsOpenDB("
+            select ID_ARCHIVO,FH_CARGA,nombre_archivo,FH_carga + '-' + nombre_archivo as ids,archivos.ID_CAMPAIGN,NOMBRE_CAMPAIGN 
+            from ARCHIVOS with(nolock) inner join TAB_CAMPAIGNS with (nolock) 
+            on ARCHIVOS.ID_CAMPAIGN = TAB_CAMPAIGNS.ID_CAMPAIGN order by FH_CARGA desc
+        ")
+        Dim campañas() As DataRow = rdrArchivos.Tables(0).Select("1 = 1")
         Dim i As Integer
         For i = 0 To campañas.Count - 1
             Try
                 dropDownCampaigns.Items.Add(campañas(i).Item("ids"))
+                dropDownCampaigns.Items(i).Value = i
             Catch
             End Try
         Next
 
-        Dim rdrMerchants As DataSet = dsOpenDB("select * from archivos_data (nolock)")
-        Dim countPropDataRow() As DataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'PROP'")
+        Dim rdrMerchants As DataSet = dsOpenDB("select * from archivos_data (nolock) where id_archivo = '" & campañas(0).Item("ID_ARCHIVO") & "'")
+        Dim countPropDataRow() As DataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = '" & campañas(0).Item("ID_ARCHIVO") & "'")
         Dim countProp As Integer = countPropDataRow.Count
-        countPropDataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'PROP' and id_agencia <> -1")
+        countPropDataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'PROP' and id_agencia <> -1")
         Dim PropAsignados As Integer = countPropDataRow.Count
         Dim PropNoAsignados = countProp - PropAsignados
         Dim tempProp As Double = PropAsignados / countProp * 100
         Dim assignationRateProp As String = tempProp.ToString
-        assignationRateProp = assignationRateProp.Substring(0, assignationRateProp.IndexOf(".") + 3)
+        assignationRateProp = If(assignationRateProp > 0, assignationRateProp.Substring(0, assignationRateProp.IndexOf(".") + 3), 0)
 
-        Dim countOBDataRow() As DataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'OB'")
+        Dim countOBDataRow() As DataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'OB'")
         Dim countOB As Integer = countOBDataRow.Count
-        countPropDataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'OB' and id_agencia <> -1")
+        countPropDataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'OB' and id_agencia <> -1")
         Dim OBAsignados As Integer = countPropDataRow.Count
         Dim OBNoAsignados = countOB - OBAsignados
         Dim tempOB As Double = OBAsignados / countOB * 100
         Dim assignationRateOB As String = tempOB.ToString
-        assignationRateOB = assignationRateOB.Substring(0, assignationRateOB.IndexOf(".") + 3)
+        assignationRateOB = If(assignationRateProp > 0, assignationRateOB.Substring(0, assignationRateOB.IndexOf(".") + 3), 0.00001)
 
         totalMerchants.Value = countProp + countOB
 

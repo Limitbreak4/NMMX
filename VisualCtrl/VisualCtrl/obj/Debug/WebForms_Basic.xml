@@ -381,209 +381,209 @@ Para modificarlo, mueva la declaración del campo del archivo del diseñador al 
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._LIMPIARbutton">
 <summary>
-Control LIMPIARbutton.
+LIMPIARbutton control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._image0">
 <summary>
-Control image0.
+image0 control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._SALVARbutton">
 <summary>
-Control SALVARbutton.
+SALVARbutton control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._image1">
 <summary>
-Control image1.
+image1 control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._BUSCARbutton">
 <summary>
-Control BUSCARbutton.
+BUSCARbutton control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._image2">
 <summary>
-Control image2.
+image2 control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._REGRESARbutton">
 <summary>
-Control REGRESARbutton.
+REGRESARbutton control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._txtidUsuario">
 <summary>
-Control txtidUsuario.
+txtidUsuario control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._txtNombreCompleto">
 <summary>
-Control txtNombreCompleto.
+txtNombreCompleto control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._txtTelefono">
 <summary>
-Control txtTelefono.
+txtTelefono control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._txtEmail">
 <summary>
-Control txtEmail.
+txtEmail control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._txtPassword">
 <summary>
-Control txtPassword.
+txtPassword control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._lblIdUsuario">
 <summary>
-Control lblIdUsuario.
+lblIdUsuario control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._dropRol">
 <summary>
-Control dropRol.
+dropRol control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._chkflgCanc">
 <summary>
-Control chkflgCanc.
+chkflgCanc control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._dropAgencia">
 <summary>
-Control dropAgencia.
+dropAgencia control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._chkAdmin">
 <summary>
-Control chkAdmin.
+chkAdmin control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._chkContacto">
 <summary>
-Control chkContacto.
+chkContacto control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._btnHIDE_SEARCH">
 <summary>
-Control btnHIDE_SEARCH.
+btnHIDE_SEARCH control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._mpSEARCH">
 <summary>
-Control mpSEARCH.
+mpSEARCH control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._panelSEARCH">
 <summary>
-Control panelSEARCH.
+panelSEARCH control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._btnCLOSE_SEARCH">
 <summary>
-Control btnCLOSE_SEARCH.
+btnCLOSE_SEARCH control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmTabUsuarios._grdSEARCH">
 <summary>
-Control grdSEARCH.
+grdSEARCH control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmLogin._txtUsuario">
@@ -820,6 +820,24 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:VisualCtrl.frmNewAssignment._chkGeo1">
+<summary>
+chkGeo1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmNewAssignment._chkGeo2">
+<summary>
+chkGeo2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:VisualCtrl.frmNewAssignment._chkBlitz1">
 <summary>
 chkBlitz1 control.
@@ -847,9 +865,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:VisualCtrl.frmNewAssignment._UpdatePanel1">
+<summary>
+UpdatePanel1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:VisualCtrl.frmNewAssignment._cmdIniciaProces">
 <summary>
 cmdIniciaProces control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmNewAssignment._UpdateProgress1">
+<summary>
+UpdateProgress1 control.
 </summary>
 <remarks>
 Auto-generated field.
