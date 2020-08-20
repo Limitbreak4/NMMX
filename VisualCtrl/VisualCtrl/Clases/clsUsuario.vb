@@ -48,7 +48,10 @@ Public Class clsUsuario
     Public Sub SAVE(ByVal cSave As clsUsuario)
 
         If Not bEXISTE_REGISTRO("SELECT * FROM TAB_USUARIOS WHERE ID_USUARIO = '" & cSave.idUsuario & "'") Then
-            ExecuteCmd("INSERT INTO TAB_USUARIOS (ID_USUARIO) VALUES ('" & cSave.idUsuario & "')")
+            Dim contacto As Integer = If(cSave.FLG_CONTACTO_AGENCIA, 1, 0)
+            Dim cancelado As Integer = If(cSave.flgCanc, 1, 0)
+            Dim admin As Integer = If(cSave.flgAdmin, 1, 0)
+            ExecuteCmd("INSERT INTO TAB_USUARIOS (ID_USUARIO, FLG_CONTACTO_AGENCIA, FLG_CANC, FLG_ADMIN) VALUES ('" & cSave.idUsuario & "'," & contacto & "," & cancelado & "," & admin & ")")
         Else
 
         End If

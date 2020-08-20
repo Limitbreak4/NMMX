@@ -8,39 +8,49 @@
 
         TryCast(Master.FindControl("lblPage"), Label).Text = "Marketing Main Page"
         'Add CSS files
-        Dim rdrArchivos As DataSet = dsOpenDB("
+        If dropDownCampaigns.Items.Count = 0 Then
+
+            Dim rdrArchivos As DataSet = dsOpenDB("
             select ID_ARCHIVO,FH_CARGA,nombre_archivo,FH_carga + '-' + nombre_archivo as ids,archivos.ID_CAMPAIGN,NOMBRE_CAMPAIGN 
             from ARCHIVOS with(nolock) inner join TAB_CAMPAIGNS with (nolock) 
             on ARCHIVOS.ID_CAMPAIGN = TAB_CAMPAIGNS.ID_CAMPAIGN order by FH_CARGA desc
-        ")
-        Dim campañas() As DataRow = rdrArchivos.Tables(0).Select("1 = 1")
-        Dim i As Integer
-        For i = 0 To campañas.Count - 1
-            Try
-                dropDownCampaigns.Items.Add(campañas(i).Item("ids"))
-                dropDownCampaigns.Items(i).Value = i
-            Catch
-            End Try
-        Next
+            ")
+            Dim campañas() As DataRow = rdrArchivos.Tables(0).Select("1 = 1")
+            Dim i As Integer
+            For i = 0 To campañas.Count - 1
+                Try
+                    dropDownCampaigns.Items.Add(campañas(i).Item("ids"))
+                    dropDownCampaigns.Items(i).Value = campañas(i).Item("ID_ARCHIVO")
+                Catch
+                End Try
+            Next
+            fillGraphInfo(campañas(0).Item("ID_ARCHIVO"))
+        End If
 
-        Dim rdrMerchants As DataSet = dsOpenDB("select * from archivos_data (nolock) where id_archivo = '" & campañas(0).Item("ID_ARCHIVO") & "'")
-        Dim countPropDataRow() As DataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = '" & campañas(0).Item("ID_ARCHIVO") & "'")
+
+    End Sub
+
+    Private Sub dropDownCampaigns_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dropDownCampaigns.SelectedIndexChanged
+        fillGraphInfo(dropDownCampaigns.SelectedValue)
+    End Sub
+
+    Private Sub fillGraphInfo(index As Integer)
+        Dim rdrMerchants As DataSet = dsOpenDB("select * from archivos_data (nolock) where id_archivo = '" & index & "'")
+        Dim countPropDataRow() As DataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'Prop'")
         Dim countProp As Integer = countPropDataRow.Count
         countPropDataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'PROP' and id_agencia <> -1")
         Dim PropAsignados As Integer = countPropDataRow.Count
         Dim PropNoAsignados = countProp - PropAsignados
-        Dim tempProp As Double = PropAsignados / countProp * 100
-        Dim assignationRateProp As String = tempProp.ToString
-        assignationRateProp = If(assignationRateProp > 0, assignationRateProp.Substring(0, assignationRateProp.IndexOf(".") + 3), 0)
+        Dim tempProp As Double = If(countProp > 0, PropAsignados / countProp * 100, 0)
+        Dim assignationRateProp As String = If(tempProp > 0, tempProp.ToString().Substring(0, tempProp.ToString().IndexOf(".") + 3), 0)
 
         Dim countOBDataRow() As DataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'OB'")
         Dim countOB As Integer = countOBDataRow.Count
         countPropDataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'OB' and id_agencia <> -1")
         Dim OBAsignados As Integer = countPropDataRow.Count
         Dim OBNoAsignados = countOB - OBAsignados
-        Dim tempOB As Double = OBAsignados / countOB * 100
-        Dim assignationRateOB As String = tempOB.ToString
-        assignationRateOB = If(assignationRateProp > 0, assignationRateOB.Substring(0, assignationRateOB.IndexOf(".") + 3), 0.00001)
+        Dim tempOB As Double = If(countOB > 0, OBAsignados / countOB * 100, 0)
+        Dim assignationRateOB As String = If(tempOB > 0, tempOB.ToString().Substring(0, tempOB.ToString().IndexOf(".") + 3), 0)
 
         totalMerchants.Value = countProp + countOB
 
@@ -110,10 +120,5 @@
     ]"
 
         mesesJSON.Value = json
-
-    End Sub
-
-    Private Sub dropDownCampaigns_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dropDownCampaigns.SelectedIndexChanged
-
     End Sub
 End Class

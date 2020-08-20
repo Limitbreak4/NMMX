@@ -73,45 +73,51 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:DropDownList ID="dropDownCampaigns" runat="server">
+                            <asp:DropDownList ID="dropDownCampaigns" runat="server" AutoPostBack="True">
                             </asp:DropDownList>
                         </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                     </tr>
-                    <tr style="border-style: solid; border-width: 2px">
-                        <td class="primeracolumna" style="width: 70px">Portfolio</td>
-                        <td class="encabezado" style="width: 50px">LIFs</td>
-                        <td class="encabezado" style="width: 110px">Not Assigned</td>
-                        <td class="encabezado" style="width: 80px">Assigned</td>
-                        <td class="encabezado" style="width: 120px">Assignation Rate</td>
-                        <td class="encabezado" style="width: 60px">Visited</td>
-                        <td class="encabezado" style="width: 90px">Visits Rate</td>
-                        <td class="encabezado" style="width: 80px">Completed</td>
-                        <td class="encabezado" style="width: 130px">Completion Rate</td>
-                    </tr>
                     <tr>
-                        <td class="primeracolumna" style="width: 60px">Prop</td>
-                        <td class="celda" style="border-style: solid;"><%=txtLifsProp.Value  %></td>
-                        <td class="celda" style="border-style: solid;"><%=String.Format("{0:n0}", Integer.Parse(hfNotAssignedProp.Value.ToString()))  %></td>
-                        <td class="celda" style="border-style: solid;"><%=txtAssignedProp.Value %></td>
-                        <td class="celda" style="border-style: solid;"><%=hfAssignationRateProp.Value %>%</td>
-                        <td class="celda" style="border-style: solid;">5</td>
-                        <td class="celda" style="border-style: solid;">6</td>
-                        <td class="celda" style="border-style: solid;">7</td>
-                        <td class="celda" style="border-style: solid;">8</td>
-                    </tr>
-                    <tr>
-                        <td class="primeracolumna" style="width: 60px">OptBlue</td>
-                        <td class="celda" style="border-style: solid;"><%=txtLifsOB.Value  %></td>
-                        <td class="celda" style="border-style: solid;"><%=String.Format("{0:n0}", Integer.Parse(hfNotAssignedOB.Value.ToString()))  %></td>
-                        <td class="celda" style="border-style: solid;"><%=txtAssignedOB.Value %></td>
-                        <td class="celda" style="border-style: solid;"><%=hfAssignationRateOB.Value %>%</td>
-                        <td class="celda" style="border-style: solid;">13</td>
-                        <td class="celda" style="border-style: solid;">14</td>
-                        <td class="celda" style="border-style: solid;">15</td>
-                        <td class="celda" style="border-style: solid;">16</td>
+                        <td>
+                        <Table>
+                            <tr style="border-style: solid; border-width: 2px">
+                                <td class="primeracolumna" style="width: 70px">Portfolio</td>
+                                <td class="encabezado" style="width: 50px">LIFs</td>
+                                <td class="encabezado" style="width: 110px">Not Assigned</td>
+                                <td class="encabezado" style="width: 80px">Assigned</td>
+                                <td class="encabezado" style="width: 120px">Assignation Rate</td>
+                                <td class="encabezado" style="width: 60px">Visited</td>
+                                <td class="encabezado" style="width: 90px">Visits Rate</td>
+                                <td class="encabezado" style="width: 80px">Completed</td>
+                                <td class="encabezado" style="width: 130px">Completion Rate</td>
+                            </tr>
+                            <tr>
+                                <td class="primeracolumna" style="width: 60px">Prop</td>
+                                <td class="celda" style="border-style: solid;"><%=txtLifsProp.Value  %></td>
+                                <td class="celda" style="border-style: solid;"><%=String.Format("{0:n0}", Integer.Parse(hfNotAssignedProp.Value.ToString()))  %></td>
+                                <td class="celda" style="border-style: solid;"><%=txtAssignedProp.Value %></td>
+                                <td class="celda" style="border-style: solid;"><%=hfAssignationRateProp.Value %>%</td>
+                                <td class="celda" style="border-style: solid;">5</td>
+                                <td class="celda" style="border-style: solid;">6</td>
+                                <td class="celda" style="border-style: solid;">7</td>
+                                <td class="celda" style="border-style: solid;">8</td>
+                            </tr>
+                            <tr>
+                                <td class="primeracolumna" style="width: 60px">OptBlue</td>
+                                <td class="celda" style="border-style: solid;"><%=txtLifsOB.Value  %></td>
+                                <td class="celda" style="border-style: solid;"><%=String.Format("{0:n0}", Integer.Parse(hfNotAssignedOB.Value.ToString()))  %></td>
+                                <td class="celda" style="border-style: solid;"><%=txtAssignedOB.Value %></td>
+                                <td class="celda" style="border-style: solid;"><%=hfAssignationRateOB.Value %>%</td>
+                                <td class="celda" style="border-style: solid;">13</td>
+                                <td class="celda" style="border-style: solid;">14</td>
+                                <td class="celda" style="border-style: solid;">15</td>
+                                <td class="celda" style="border-style: solid;">16</td>
+                            </tr>
+                        </Table>
+                            </td>
                     </tr>
                 </table>
             </td>
