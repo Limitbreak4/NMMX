@@ -13,6 +13,11 @@
           <Property Name="id_archivo" Type="bigint" Nullable="false" />
           <Property Name="total_lineas" Type="bigint" Nullable="false" />
           <Property Name="lineas_procesadas" Type="bigint" />
+          <Property Name="geo1" Type="tinyint" />
+          <Property Name="geo2" Type="tinyint" />
+          <Property Name="blitz1" Type="tinyint" />
+          <Property Name="blitz2" Type="tinyint" />
+          <Property Name="blitz3" Type="tinyint" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'nmmx.dbo.TAB_TAREA_ROW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -52,6 +57,11 @@ warning 6002: The table/view 'nmmx.dbo.TAB_TAREA_ROW' does not have a primary ke
           <Property Name="id_archivo" Type="Int64" Nullable="false" />
           <Property Name="total_lineas" Type="Int64" Nullable="false" />
           <Property Name="lineas_procesadas" Type="Int64" />
+          <Property Name="geo1" Type="Byte" />
+          <Property Name="geo2" Type="Byte" />
+          <Property Name="blitz1" Type="Byte" />
+          <Property Name="blitz2" Type="Byte" />
+          <Property Name="blitz3" Type="Byte" />
         </EntityType>
         <EntityType Name="TAB_TAREA_ROW">
           <Key>
@@ -76,6 +86,11 @@ warning 6002: The table/view 'nmmx.dbo.TAB_TAREA_ROW' does not have a primary ke
           <EntitySetMapping Name="TAB_TAREA">
             <EntityTypeMapping TypeName="nmmxModel.TAB_TAREA">
               <MappingFragment StoreEntitySet="TAB_TAREA">
+                <ScalarProperty Name="blitz3" ColumnName="blitz3" />
+                <ScalarProperty Name="blitz2" ColumnName="blitz2" />
+                <ScalarProperty Name="blitz1" ColumnName="blitz1" />
+                <ScalarProperty Name="geo2" ColumnName="geo2" />
+                <ScalarProperty Name="geo1" ColumnName="geo1" />
                 <ScalarProperty Name="id_tarea" ColumnName="id_tarea" />
                 <ScalarProperty Name="id_archivo" ColumnName="id_archivo" />
                 <ScalarProperty Name="total_lineas" ColumnName="total_lineas" />

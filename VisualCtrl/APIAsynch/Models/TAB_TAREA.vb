@@ -13,4 +13,14 @@ Partial Public Class TAB_TAREA
     Public Property total_lineas As Long
 
     Public Property lineas_procesadas As Long?
+
+    Public Property geo1 As Byte?
+
+    Public Property geo2 As Byte?
+
+    Public Property blitz1 As Byte?
+
+    Public Property blitz2 As Byte?
+
+    Public Property blitz3 As Byte?
 End Class

@@ -4,6 +4,11 @@
     <EntitySetMapping Name="TAB_TAREA">
       <EntityTypeMapping TypeName="nmmxModel.TAB_TAREA">
         <MappingFragment StoreEntitySet="TAB_TAREA">
+          <ScalarProperty Name="blitz3" ColumnName="blitz3" />
+          <ScalarProperty Name="blitz2" ColumnName="blitz2" />
+          <ScalarProperty Name="blitz1" ColumnName="blitz1" />
+          <ScalarProperty Name="geo2" ColumnName="geo2" />
+          <ScalarProperty Name="geo1" ColumnName="geo1" />
           <ScalarProperty Name="id_tarea" ColumnName="id_tarea" />
           <ScalarProperty Name="id_archivo" ColumnName="id_archivo" />
           <ScalarProperty Name="total_lineas" ColumnName="total_lineas" />

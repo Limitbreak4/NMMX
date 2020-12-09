@@ -8,6 +8,11 @@
     <Property Name="id_archivo" Type="bigint" Nullable="false" />
     <Property Name="total_lineas" Type="bigint" Nullable="false" />
     <Property Name="lineas_procesadas" Type="bigint" />
+    <Property Name="geo1" Type="tinyint" />
+    <Property Name="geo2" Type="tinyint" />
+    <Property Name="blitz1" Type="tinyint" />
+    <Property Name="blitz2" Type="tinyint" />
+    <Property Name="blitz3" Type="tinyint" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'nmmx.dbo.TAB_TAREA_ROW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->

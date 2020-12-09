@@ -17,6 +17,11 @@ Namespace APIAsynch
         Public Property id_archivo As Long
         Public Property total_lineas As Long
         Public Property lineas_procesadas As Nullable(Of Long)
+        Public Property geo1 As Nullable(Of Byte)
+        Public Property geo2 As Nullable(Of Byte)
+        Public Property blitz1 As Nullable(Of Byte)
+        Public Property blitz2 As Nullable(Of Byte)
+        Public Property blitz3 As Nullable(Of Byte)
     
     End Class
 
