@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="nmmxModelStoreContainer" CdmEntityContainer="nmmxEntities">
+    <EntitySetMapping Name="TAB_TAREA">
+      <EntityTypeMapping TypeName="nmmxModel.TAB_TAREA">
+        <MappingFragment StoreEntitySet="TAB_TAREA">
+          <ScalarProperty Name="id_tarea" ColumnName="id_tarea" />
+          <ScalarProperty Name="id_archivo" ColumnName="id_archivo" />
+          <ScalarProperty Name="total_lineas" ColumnName="total_lineas" />
+          <ScalarProperty Name="lineas_procesadas" ColumnName="lineas_procesadas" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TAB_TAREA_ROW">
+      <EntityTypeMapping TypeName="nmmxModel.TAB_TAREA_ROW">
+        <MappingFragment StoreEntitySet="TAB_TAREA_ROW">
+          <ScalarProperty Name="id_row" ColumnName="id_row" />
+          <ScalarProperty Name="num_renglon" ColumnName="num_renglon" />
+          <ScalarProperty Name="id_tarea" ColumnName="id_tarea" />
+          <ScalarProperty Name="llamada_api" ColumnName="llamada_api" />
+          <ScalarProperty Name="resultado_api" ColumnName="resultado_api" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

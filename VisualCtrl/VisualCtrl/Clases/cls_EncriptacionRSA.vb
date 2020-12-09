@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Security.Cryptography
 Imports System.Text
+Imports System.Web.Security.AntiXss
 
 Public Class cls_EncriptacionRSA
 
@@ -18,8 +19,8 @@ Public Class cls_EncriptacionRSA
         Dim objMemoryStream As New MemoryStream()
         Dim objCryptoStream As CryptoStream
         Dim objRijndaelManaged As RijndaelManaged
-
-
+        textoEncriptar = AntiXssEncoder.HtmlEncode(textoEncriptar, False)
+        claveEncriptacion = AntiXssEncoder.HtmlEncode(claveEncriptacion, False)
         'Quitar nulos en cadena de texto a encriptar
         textoEncriptar = quitarNullCadena(textoEncriptar)
 
@@ -88,6 +89,8 @@ Public Class cls_EncriptacionRSA
         Dim intLength As Integer
         Dim intRemaining As Integer
         Dim strReturnString As String = String.Empty
+        textoEncriptado = AntiXssEncoder.HtmlEncode(textoEncriptado, False)
+        claveDesencriptacion = AntiXssEncoder.HtmlEncode(claveDesencriptacion, False)
 
         If textoEncriptado = "" Then
             Return ""

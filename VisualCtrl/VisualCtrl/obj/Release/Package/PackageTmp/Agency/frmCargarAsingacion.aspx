@@ -1,27 +1,29 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Agency.Master" CodeBehind="frmCargarAsingacion.aspx.vb" Inherits="VisualCtrl.frmCargarAsingacion" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <p>
-        ewe<table style="width:100%;">
+        <table class="nav-justified">
         <tr>
             <td><span style="font-weight: bold">CARGAR ARCHIVOS DE RESULTADOS</span></td>
             <td>&nbsp;</td>
         </tr>
         <tr>
             <td style="vertical-align: top" class="auto-style12">
-                En éste módulo solo aparecerán aquellas asignaciones las cuales aún no se haya cargado el archivo de outcome.</td>
+                &nbsp;</td>
             <td style="vertical-align: top" class="auto-style12">
                 </td>
         </tr>
         <tr>
             <td style="vertical-align: top">
-                &nbsp;</td>
+                &nbsp;<asp:FileUpload ID="FileUpload1" runat="server" />
+                <asp:Button ID="Button1" runat="server" Text="Cargar resultados" />
+&nbsp;</td>
             <td style="vertical-align: top">
                 &nbsp;</td>
         </tr>
         </table>
 </p>
 <p>
-    <asp:GridView ID="grdAsignmentData" runat="server" AutoGenerateColumns="False" Width="95%" DataKeyNames="ID_ASIGNACION" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
+    <%--<asp:GridView ID="grdAsignmentData" runat="server" AutoGenerateColumns="False" Width="95%" DataKeyNames="ID_ASIGNACION" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
         <Columns>
             <asp:BoundField DataField="FH_ASIGNACION" HeaderText="Fecha de Creación">
             <ItemStyle Width="100px" />
@@ -45,7 +47,7 @@
         <SortedAscendingHeaderStyle BackColor="#007DBB" />
         <SortedDescendingCellStyle BackColor="#CAC9C9" />
         <SortedDescendingHeaderStyle BackColor="#00547E" />
-    </asp:GridView>
+    </asp:GridView>--%>
 </p>
 <p>
     &nbsp;</p>

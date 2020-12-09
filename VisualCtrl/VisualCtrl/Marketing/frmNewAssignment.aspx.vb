@@ -2,6 +2,11 @@
 Imports System.Net.Mail
 Imports ClosedXML.Excel
 Imports System.Data.SqlClient
+Imports System.Web.Security.AntiXss
+Imports Newtonsoft.Json
+Imports System.Net
+Imports System.Text
+Imports System.Configuration.ConfigurationManager
 
 Public Class frmNewAssignment
     Inherits System.Web.UI.Page
@@ -15,13 +20,13 @@ Public Class frmNewAssignment
             'INICIALIZAR_FORM
             TryCast(Master.FindControl("lblPage"), Label).Text = "Create New Assignment"
 
-            CARGAR_COMBO(dropCampaigns, "SELECT * FROM TAB_CAMPAIGNS", "ID_CAMPAIGN", "", "NOMBRE_CAMPAIGN", True, False)
+            CARGAR_COMBO(dropCampaigns, New SqlCommand("SELECT * FROM TAB_CAMPAIGNS"), "ID_CAMPAIGN", "", "NOMBRE_CAMPAIGN", True, False)
         End If
 
     End Sub
 
     Private Function validaEncabezado(encabezado As IXLRow) As Boolean
-        Dim baseplantilla As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
+        Dim baseplantilla As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/plantilla_ack.xlsx"), False)
         Dim plantilla As New XLWorkbook(baseplantilla)
         Dim header As IXLRow = plantilla.Worksheet(1).Row(1)
         Dim res As Boolean = True
@@ -37,13 +42,18 @@ Public Class frmNewAssignment
 
 
     Protected Sub cmdIniciaProces_Click(sender As Object, e As EventArgs) Handles cmdIniciaProces.Click 'version FINA
+        Dim resString As String = "nothing"
+
         If IsNothing(lbresult.Items) Then
             lbresult.Items.Clear()
         End If
-        If fu.HasFile And dropCampaigns.SelectedIndex <> 0 Then
+        If fu.HasFile And validaInjection(fu.FileName) And dropCampaigns.SelectedIndex <> 0 Then
             Dim idcamapaña As Integer = Integer.Parse(dropCampaigns.SelectedValue)
             Dim CLSfILE As New clsArchivo
-            Dim FILEPATH As String = Server.MapPath("~/tmpFile/" & fu.FileName.Replace(" ", "_"))
+            Dim FILEPATH As String = ""
+
+            FILEPATH = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/" & fu.FileName.Replace(" ", "_")), False)
+
             CLSfILE.ID_ARCHIVO = -1
             CLSfILE.FH_CARGA = FORMATEAR_FECHA(System.DateTime.Now, "C")
             CLSfILE.NOMBRE_ARCHIVO = fu.FileName
@@ -53,30 +63,74 @@ Public Class frmNewAssignment
             CLSfILE.ID_CAMPAIGN = dropCampaigns.SelectedItem.Value
             CLSfILE.SAVE(CLSfILE)
 
-            Dim rdrAgencia As DataSet = dsOpenDB("SELECT * FROM TAB_AGENCIA nolock WHERE FLG_CANC = 0")
-            Dim rdrCP As DataSet = dsOpenDB("SELECT * FROM TAB_REGION nolock WHERE FLG_CANC = 0 ")
-            Dim rdrEstados As DataSet = dsOpenDB("SELECT * FROM TAB_ESTADOS nolock WHERE FLG_CANC = 0 ")
-            Dim rdrCPEstado As DataSet = dsOpenDB("SELECT * FROM TAB_CP INNER JOIN TAB_ESTADOS ON TAB_ESTADOS.ID_ESTADO = TAB_CP.ID_ESTADO WHERE TAB_ESTADOS.GEO_DEFAULT <> 0")
-            Dim rdrAlcaldia As DataSet = dsOpenDB("select  TAB_REGION.ID_ESTADO, DESC_REGION, CP, FLG_PRIORITARIA,ID_REGION,TAB_REGION.FLG_CANC,GEO, TAB_REGION.ID_AGENCIA, DESC_ESTADO, TAB_ESTADOS.FLG_CANC, GEO_DEFAULT from tab_region inner join tab_estados on tab_region.id_estado = TAB_ESTADOS.ID_ESTADO where tab_region.FLG_CANC = 0") 'CAMBIO
-            Dim rdrEveryCP As DataSet = dsOpenDB("Select * from TAB_CP nolock")
-            Dim dRowAgencia() As DataRow
-            Dim dRowBlitz() As DataRow
-            Dim rowCom() As DataRow
-            Dim dRowAlcaldia() As DataRow 'CAMBIO
-            Dim rdrRel As DataTable = dsOpenDB("SELECT * FROM TAB_ESTADOS with(nolock) inner join TAB_CP with(nolock) on TAB_ESTADOS.Id_estado_original = TAB_CP.ID_ESTADO").Tables(0)
-
             If File.Exists(FILEPATH) Then
                 File.Delete(FILEPATH)
             End If
             fu.PostedFile.SaveAs(FILEPATH)
             Dim m_Excel As New XLWorkbook(FILEPATH)
+
+            'LLAMAR API REST PARA ENCOLAR EL TRABAJO
+            Dim webClient As New WebClient()
+            Dim resByte As Byte()
+
+            Dim reqString() As Byte
+            Dim dictData As Dictionary(Of String, Object) = New Dictionary(Of String, Object)
+            dictData.Add("id_archivo", CLSfILE.ID_ARCHIVO)
+            dictData.Add("total_lineas", m_Excel.Worksheets(0).LastRowUsed().RowNumber() - 1)
+            dictData.Add("lineas_procesadas", 0)
+
+            webClient.Headers("content-type") = "application/json"
+            reqString = Encoding.Default.GetBytes(JsonConvert.SerializeObject(dictData, Formatting.Indented))
+            resByte = webClient.UploadData(AppSettings("APIURL") + "/TAB_TAREA/", "post", reqString)
+            'resByte = webClient.DownloadData(AppSettings("APIURL") + "/values/")
+
+            resString = Encoding.Default.GetString(resByte)
+            Console.WriteLine(resString)
+            webClient.Dispose()
+
+
+
+            'terminar y controlar todo en la página
+
+
+            Dim sel As String
+            Dim tabs As String
+            Dim cond As String
+
+            'Dim rdrAgencia As DataSet = dsOpenDB("Select * FROM TAB_AGENCIA nolock WHERE FLG_CANC = 0")
+            Dim rdrAgencia As DataSet = dsOpenDB(New SqlCommand("Select * FROM TAB_AGENCIA nolock WHERE FLG_CANC = 0"))
+            'Dim rdrCP As DataSet = dsOpenDB("Select * FROM TAB_REGION nolock WHERE FLG_CANC = 0 ")
+            Dim rdrCP As DataSet = dsOpenDB(New SqlCommand("Select * FROM TAB_REGION nolock WHERE FLG_CANC = 0 "))
+
+            'Dim rdrEstados As DataSet = dsOpenDB("Select * FROM TAB_ESTADOS nolock WHERE FLG_CANC = 0 ")
+            Dim rdrEstados As DataSet = dsOpenDB(New SqlCommand("Select * FROM TAB_ESTADOS nolock WHERE FLG_CANC = 0 "))
+
+            'Dim rdrCPEstado As DataSet = dsOpenDB("Select * FROM TAB_CP INNER JOIN TAB_ESTADOS On TAB_ESTADOS.ID_ESTADO = TAB_CP.ID_ESTADO WHERE TAB_ESTADOS.GEO_DEFAULT <> 0")
+            Dim rdrCPEstado As DataSet = dsOpenDB(New SqlCommand("Select * FROM TAB_CP INNER JOIN TAB_ESTADOS On TAB_ESTADOS.ID_ESTADO = TAB_CP.ID_ESTADO WHERE TAB_ESTADOS.GEO_DEFAULT <> 0"))
+
+            'Dim rdrAlcaldia As DataSet = dsOpenDB("Select  TAB_REGION.ID_ESTADO, DESC_REGION, CP, FLG_PRIORITARIA, ID_REGION, TAB_REGION.FLG_CANC, GEO, TAB_REGION.ID_AGENCIA, DESC_ESTADO, TAB_ESTADOS.FLG_CANC, GEO_DEFAULT from tab_region inner join tab_estados On tab_region.id_estado = TAB_ESTADOS.ID_ESTADO where tab_region.FLG_CANC = 0") 'CAMBIO
+            Dim rdrAlcaldia As DataSet = dsOpenDB(New SqlCommand("Select  TAB_REGION.ID_ESTADO, DESC_REGION, CP, FLG_PRIORITARIA, ID_REGION, TAB_REGION.FLG_CANC, GEO, TAB_REGION.ID_AGENCIA, DESC_ESTADO, TAB_ESTADOS.FLG_CANC, GEO_DEFAULT from tab_region inner join tab_estados On tab_region.id_estado = TAB_ESTADOS.ID_ESTADO where tab_region.FLG_CANC = 0")) 'CAMBIO
+
+            'Dim rdrEveryCP As DataSet = dsOpenDB("Select * from TAB_CP nolock")
+            Dim rdrEveryCP As DataSet = dsOpenDB(New SqlCommand("Select * from TAB_CP nolock"))
+
+
+            Dim dRowAgencia() As DataRow
+            Dim dRowBlitz() As DataRow
+            Dim rowCom() As DataRow
+            Dim dRowAlcaldia() As DataRow
+            'Dim rdrRel As DataTable = dsOpenDB("Select * FROM TAB_ESTADOS With(nolock) inner join TAB_CP With(nolock) On TAB_ESTADOS.Id_estado_original = TAB_CP.ID_ESTADO").Tables(0)
+            Dim rdrRel As DataTable = dsOpenDB(New SqlCommand("Select * FROM TAB_ESTADOS With(nolock) inner join TAB_CP With(nolock) On TAB_ESTADOS.Id_estado_original = TAB_CP.ID_ESTADO")).Tables(0)
+
+
             'Dim lastRow As Integer = Integer.Parse(m_Excel.Worksheets(0).LastRowUsed().RowNumber())
 
             'Info para agregar blitz a asignación
             Dim rdrAgenciaPorAlcaldia As DataSet
             Dim rowBlitzForzado As DataRow()
             If chkBlitz1.Checked Or chkBlitz2.Checked Or chkBlitz3.Checked Then
-                rdrAgenciaPorAlcaldia = dsOpenDB("SELECT * FROM TAB_ALCALDIA")
+                'rdrAgenciaPorAlcaldia = dsOpenDB("Select * FROM TAB_ALCALDIA")
+                rdrAgenciaPorAlcaldia = dsOpenDB(New SqlCommand("Select * FROM TAB_ALCALDIA (NOLOCK)"))
             End If
 
             If validaEncabezado(m_Excel.Worksheet(1).Row(1)) Then
@@ -263,7 +317,7 @@ Public Class frmNewAssignment
                         m_Excel.Worksheet(1).Row(iRow + 1).Cell(19).Value = rechazo
                         addRecordOk(m_Excel.Worksheet(1).Row(iRow + 1), CLSfILE.ID_ARCHIVO, -1, -1, -837, False, idcamapaña, "", "", conTemp)
                         iNack += 1
-                        End If
+                    End If
                     'If m_Excel.Worksheet(1).Row(iRow + 1).Cell(15).Value.ToString.Length > 0 And m_Excel.Worksheet(1).Row(iRow + 1).Cell(16).Value.ToString.Length > 0 Then
                     '    'CAMBIO busca agencia pero usando estado y municipio/alcaldía/ciudad
 
@@ -369,6 +423,8 @@ Public Class frmNewAssignment
         Else
             msg("No file to process available")
         End If
+        Console.WriteLine("**********" + resString + "**********")
+
     End Sub
     'Protected Sub cmdIniciaProces_Click(sender As Object, e As EventArgs) Handles cmdIniciaProces.Click 'versión ADLV
     '    lbresult.Items.Clear()
@@ -525,19 +581,27 @@ Public Class frmNewAssignment
     End Sub
 
     Private Sub DESPLIEGA_FILES_GRID(ByVal idArchivo As String)
-        Dim rdrAsignaciones As DataSet = dsOpenDB("SELECT ROWS_OK,ROWS_NOT_OK, DESC_AGENCIA, NOMBRE_ARCHIVO, ID_ASIGNACION FROM ASIGNACIONES INNER JOIN TAB_AGENCIA ON TAB_AGENCIA.ID_AGENCIA = ASIGNACIONES.ID_AGENCIA WHERE ARCHIVO_ACK = 1 AND ID_ARCHIVO = " & idArchivo)
+        Dim comm As SqlCommand = New SqlCommand("SELECT ROWS_OK,ROWS_NOT_OK, DESC_AGENCIA, NOMBRE_ARCHIVO, ID_ASIGNACION FROM ASIGNACIONES INNER JOIN TAB_AGENCIA ON TAB_AGENCIA.ID_AGENCIA = ASIGNACIONES.ID_AGENCIA WHERE ARCHIVO_ACK = 1 AND ID_ARCHIVO = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+
+        Dim rdrAsignaciones As DataSet = dsOpenDB(comm)
         grdFiles.DataSource = rdrAsignaciones.Tables(0)
         grdFiles.DataBind()
 
-        Dim rdrAsignacionesNACK As DataSet = dsOpenDB("SELECT ROWS_NOT_OK, NOMBRE_ARCHIVO, ID_ASIGNACION FROM ASIGNACIONES WHERE ARCHIVO_ACK = 0 AND ID_ARCHIVO = " & idArchivo)
+        Dim comm2 As SqlCommand = New SqlCommand("SELECT ROWS_NOT_OK, NOMBRE_ARCHIVO, ID_ASIGNACION FROM ASIGNACIONES (NOLOCK) WHERE ARCHIVO_ACK = 0 AND ID_ARCHIVO = @PARAM1")
+        comm2.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+        Dim rdrAsignacionesNACK As DataSet = dsOpenDB(comm2)
+
         If rdrAsignacionesNACK.Tables(0).Rows.Count > 0 Then
             lblNotOk.Visible = True
         End If
         grdNAKFile.DataSource = rdrAsignacionesNACK.Tables(0)
         grdNAKFile.DataBind()
 
+        Dim comm3 As SqlCommand = New SqlCommand("SELECT ROWS_OK,ROWS_NOT_OK, NOMBRE_ARCHIVO, ID_ASIGNACION, TIPO_BLITZ FROM ASIGNACIONES WHERE ARCHIVO_ACK = 1 AND TIPO_BLITZ  <> '' AND ID_ARCHIVO = @PARAM1")
+        comm3.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
 
-        Dim rdrBlitz As DataSet = dsOpenDB("SELECT ROWS_OK,ROWS_NOT_OK, NOMBRE_ARCHIVO, ID_ASIGNACION, TIPO_BLITZ FROM ASIGNACIONES WHERE ARCHIVO_ACK = 1 AND TIPO_BLITZ  <> '' AND ID_ARCHIVO = " & idArchivo)
+        Dim rdrBlitz As DataSet = dsOpenDB(comm3)
         If rdrBlitz.Tables(0).Rows.Count > 0 Then
             lblBlitz.Visible = True
         End If
@@ -612,23 +676,38 @@ Public Class frmNewAssignment
     End Sub
     Private Sub CREA_FILES_AGENCIA_ACK(ByVal idArchivo As Integer, ByVal geo1 As Boolean, ByVal geo2 As Boolean)
         Dim RDRACK As DataSet
-        RDRACK = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND ID_AGENCIA > 0")
-        Dim original As DataSet = dsOpenDB("select * FROM ARCHIVOS (nolock) where ID_ARCHIVO = " & idArchivo)
+        'RDRACK = dsOpenDB("*", "ARCHIVOS_DATA", "ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND ID_AGENCIA > 0")
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO = @PARAM1 AND FLG_RECORD_OK = 1 AND ID_AGENCIA > 0")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+
+        RDRACK = dsOpenDB(comm)
+
+        comm = New SqlCommand("SELECT * FROM ARCHIVOS (nolock) WHERE ID_ARCHIVO = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+
+        Dim original As DataSet = dsOpenDB(comm)
         Dim distinctDT As DataTable = RDRACK.Tables(0).DefaultView.ToTable(True, "ID_AGENCIA")
         Dim drAck() As DataRow
         'CREA EL REGISTRO DE ASIGNACIÓN
 
         Dim nombrearchivo As String = original.Tables(0).Rows(0).Item("NOMBRE_ARCHIVO")
+        If Not validaInjection(nombrearchivo) Then
+            nombrearchivo = "Antihacking.xls"
+        End If
+
         nombrearchivo = nombrearchivo.Substring(0, nombrearchivo.IndexOf(".xls"))
         For I As Integer = 0 To distinctDT.Rows.Count - 1
 
             drAck = RDRACK.Tables(0).Select("ID_ARCHIVO = " & idArchivo & " AND ID_AGENCIA = " & distinctDT.Rows(I).Item("ID_AGENCIA"))
             If drAck.Length > 0 Then
-                Dim baseruta As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
-                Dim strAgencia As String = VALORINTABLA("DESC_AGENCIA", "TAB_AGENCIA", "ID_AGENCIA", distinctDT.Rows(I).Item("ID_AGENCIA"))
+                Dim baseruta As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/plantilla_ack.xlsx"), False)
+                comm = New SqlCommand("SELECT DESC_AGENCIA FROM TAB_AGENCIA (NOLOCK) WHERE ID_AGENCIA = @PARAM1")
+                comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = distinctDT.Rows(I).Item("ID_AGENCIA")
+
+                Dim strAgencia As String = VALORINTABLA("DESC_AGENCIA", "TAB_AGENCIA", "ID_AGENCIA", distinctDT.Rows(I).Item("ID_AGENCIA"), comm)
                 Dim agencia As String = strAgencia
                 strAgencia = nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + strAgencia
-                Dim PathCopia As String = Server.MapPath("~/tmpFile/" & strAgencia.Replace(" ", "_") & ".xlsx")
+                Dim PathCopia As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/" & strAgencia.Replace(" ", "_") & ".xlsx"), False)
                 If System.IO.File.Exists(PathCopia) Then
                     File.Delete(PathCopia)
                 End If
@@ -778,9 +857,8 @@ Public Class frmNewAssignment
                 'End If
             End If
         Next
-
-        Dim pathNACK As String = Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "NOT_OK.xlsx")
-        Dim baserutaNACK As String = Server.MapPath("~/tmpFile/plantilla_NACK.xlsx")
+        Dim pathNACK As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "NOT_OK.xlsx"), False)
+        Dim baserutaNACK As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/plantilla_NACK.xlsx"), False)
         If System.IO.File.Exists(pathNACK) Then
             File.Delete(pathNACK)
         End If
@@ -789,8 +867,9 @@ Public Class frmNewAssignment
         End If
 
         Dim m_ExcelNACK As New XLWorkbook(pathNACK)
-
-        Dim rdrNack As DataSet = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 0")
+        comm = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO = @PARAM1 AND FLG_RECORD_OK = 0")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+        Dim rdrNack As DataSet = dsOpenDB(comm)
         Dim COUNTNACK As Integer = 0
 
         If rdrNack.Tables(0).Rows.Count - 1 > 0 Then
@@ -879,9 +958,12 @@ Public Class frmNewAssignment
 
         If Not geo1 Then
             Dim RDRACK_GEO1 As DataSet
-            RDRACK_GEO1 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'GEO 1'")
-            Dim baseruta_geo1 As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
-            Dim PathCopia_geo1 As String = Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "GEO 1 EXCLUIDO.xlsx")
+            comm = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO = @PARAM1 AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'GEO 1'")
+            comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+
+            RDRACK_GEO1 = dsOpenDB(comm)
+            Dim baseruta_geo1 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/plantilla_ack.xlsx"), False)
+            Dim PathCopia_geo1 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "GEO 1 EXCLUIDO.xlsx"), False)
             If System.IO.File.Exists(PathCopia_geo1) Then
                 File.Delete(PathCopia_geo1)
             End If
@@ -942,9 +1024,13 @@ Public Class frmNewAssignment
 
         If Not geo2 Then
             Dim RDRACK_GEO2 As DataSet
-            RDRACK_GEO2 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'GEO 2'")
-            Dim baseruta_geo2 As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
-            Dim PathCopia_geo2 As String = Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "GEO 2 EXCLUIDO.xlsx")
+            'RDRACK_GEO2 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'GEO 2'")
+            comm = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO = @PARAM1 AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'GEO 2'")
+            comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+
+            RDRACK_GEO2 = dsOpenDB(comm)
+            Dim baseruta_geo2 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/plantilla_ack.xlsx"), False)
+            Dim PathCopia_geo2 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "GEO 2 EXCLUIDO.xlsx"), False)
             If System.IO.File.Exists(PathCopia_geo2) Then
                 File.Delete(PathCopia_geo2)
             End If
@@ -1005,9 +1091,13 @@ Public Class frmNewAssignment
 
         'CREA LOS FILES PARA LOS BLITZ DE ÉSTA ASIGNACIÓN BLITZ 50
         Dim RDRACK_50 As DataSet
-        RDRACK_50 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ50'")
-        Dim baseruta_50 As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
-        Dim PathCopia_50 As String = Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "BLITZ_50.xlsx")
+        'RDRACK_50 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ50'")
+        comm = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO = @PARAM1 AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ50'")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+
+        RDRACK_50 = dsOpenDB(comm)
+        Dim baseruta_50 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/plantilla_ack.xlsx"), False)
+        Dim PathCopia_50 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "BLITZ_50.xlsx"), False)
         If System.IO.File.Exists(PathCopia_50) Then
             File.Delete(PathCopia_50)
         End If
@@ -1050,8 +1140,16 @@ Public Class frmNewAssignment
 
             If RDRACK_50.Tables(0).Rows(iCount50).Item("ID_REGION") <> -1 Then
                 'desc_regioN
-                If VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_50.Tables(0).Rows(iCount50).Item("ID_REGION"))) <> "" Then
-                    m_Excel_50.Worksheet(1).Row(iCount50 + 2).Cell(15).Value = VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_50.Tables(0).Rows(iCount50).Item("ID_REGION")))
+                comm = New SqlCommand("SELECT ID_ESTADO FROM TAB_REGION (NOLOCK) WHERE ID_REGION = @PARAM1")
+                comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = RDRACK_50.Tables(0).Rows(iCount50).Item("ID_REGION")
+                Dim val As String = VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_50.Tables(0).Rows(iCount50).Item("ID_REGION"), comm)
+                'If VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_50.Tables(0).Rows(iCount50).Item("ID_REGION"))) <> "" Then
+                Dim comm2 As SqlCommand = New SqlCommand("SELECT DESC_ESTADO FROM TAB_ESTADOS (NOLOCK) WHERE ID_ESTADO = @PARAM1")
+                comm2.Parameters.Add("@PARAM2", SqlDbType.BigInt).Value = val
+                Dim valor = VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", val, comm2)
+                If valor <> "" Then
+                    'm_Excel_50.Worksheet(1).Row(iCount50 + 2).Cell(15).Value = VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_50.Tables(0).Rows(iCount50).Item("ID_REGION")))
+                    m_Excel_50.Worksheet(1).Row(iCount50 + 2).Cell(15).Value = valor
                 Else
                     m_Excel_50.Worksheet(1).Row(iCount50 + 2).Cell(15).Value = RDRACK_50.Tables(0).Rows(iCount50).Item("ESTADO_MUNICIPIO")
                 End If
@@ -1093,9 +1191,13 @@ Public Class frmNewAssignment
 
         'CREA LOS FILES PARA LOS BLITZ DE ÉSTA ASIGNACIÓN BLITZ 100
         Dim RDRACK_100 As DataSet
-        RDRACK_100 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ100'")
-        Dim baseruta_100 As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
-        Dim PathCopia_100 As String = Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "BLITZ_100.xlsx")
+        'RDRACK_100 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ100'")
+        comm = New SqlCommand("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = @PARAM1 AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ100'")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+        RDRACK_100 = dsOpenDB(comm)
+        Dim baseruta_100 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/plantilla_ack.xlsx"), False)
+        Dim PathCopia_100 As String = AntiXssEncoder.HtmlEncode(Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "BLITZ_100.xlsx"), False)
+
         If System.IO.File.Exists(PathCopia_100) Then
             File.Delete(PathCopia_100)
         End If
@@ -1136,9 +1238,16 @@ Public Class frmNewAssignment
             'm_Excel_100.Worksheet(1).Row(iCount_100 + 2).Cell(30).SetDataValidation.List("VALUES!$B$10:$B$14")
             'm_Excel_100.Worksheet(1).Row(iCount_100 + 2).Cell(35).SetDataValidation.List("VALUES!$C$10:$C$11")
             If RDRACK_100.Tables(0).Rows(iCount_100).Item("ID_REGION") <> -1 Then
+                comm = New SqlCommand("SELECT ID_ESTADO FROM TAB_REGION (NOLOCK) WHERE ID_REGION = @PARAM1")
+                comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = RDRACK_100.Tables(0).Rows(iCount_100).Item("ID_REGION")
+
+                Dim val100 As String = VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_100.Tables(0).Rows(iCount_100).Item("ID_REGION"), comm)
                 'desc_regioN
-                If VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_100.Tables(0).Rows(iCount_100).Item("ID_REGION"))) <> "" Then
-                    m_Excel_100.Worksheet(1).Row(iCount_100 + 2).Cell(15).Value = VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_100.Tables(0).Rows(iCount_100).Item("ID_REGION")))
+                Dim comm100 As SqlCommand = New SqlCommand("SELECT DESC_ESTADO FROM TAB_ESTADOS (NOLOCK) WHERE ID_ESTADO = @PARAM1")
+                comm100.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = val100
+                Dim valcomp As String = VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", val100, comm100)
+                If valcomp <> "" Then
+                    m_Excel_100.Worksheet(1).Row(iCount_100 + 2).Cell(15).Value = valcomp
                 Else
                     m_Excel_100.Worksheet(1).Row(iCount_100 + 2).Cell(15).Value = RDRACK_100.Tables(0).Rows(iCount_100).Item("ESTADO_MUNICIPIO")
                 End If
@@ -1179,9 +1288,16 @@ Public Class frmNewAssignment
 
         'CREA LOS FILES PARA LOS BLITZ DE ÉSTA ASIGNACIÓN BLITZ 300
         Dim RDRACK_300 As DataSet
-        RDRACK_300 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ300'")
+        'RDRACK_300 = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & idArchivo & " AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ300'")
+        comm = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO = @PARAM1 AND FLG_RECORD_OK = 1 AND TIPO_BLITZ = 'BLITZ300'")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idArchivo
+
+
+        RDRACK_300 = dsOpenDB(comm)
         Dim baseruta_300 As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
         Dim PathCopia_300 As String = Server.MapPath("~/tmpFile/" & nombrearchivo + " - " + Date.Now.ToString("yyyyMMdd") + " - " + "BLITZ_300.xlsx")
+        baseruta_300 = AntiXssEncoder.HtmlEncode(baseruta_300, False)
+        PathCopia_300 = AntiXssEncoder.HtmlEncode(PathCopia_300, False)
         If System.IO.File.Exists(PathCopia_300) Then
             File.Delete(PathCopia_300)
         End If
@@ -1223,8 +1339,14 @@ Public Class frmNewAssignment
             'm_Excel_300.Worksheet(1).Row(iCount_300 + 2).Cell(35).SetDataValidation.List("VALUES!$C$10:$C$11")
             If RDRACK_300.Tables(0).Rows(iCount_300).Item("ID_REGION") <> -1 Then
                 'desc_regioN
-                If VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_300.Tables(0).Rows(iCount_300).Item("ID_REGION"))) <> "" Then
-                    m_Excel_300.Worksheet(1).Row(iCount_300 + 2).Cell(15).Value = VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_300.Tables(0).Rows(iCount_300).Item("ID_REGION")))
+                comm = New SqlCommand("SELECT * FROM ID_ESTADO FROM TAB_REGION (NOLOCK) WHERE ID_REGION = @PARAM1")
+                comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = RDRACK_300.Tables(0).Rows(iCount_300).Item("ID_REGION")
+                Dim val300 As String = VALORINTABLA("ID_ESTADO", "TAB_REGION", "ID_REGION", RDRACK_300.Tables(0).Rows(iCount_300).Item("ID_REGION"), comm)
+                Dim comm300 As SqlCommand = New SqlCommand("SELECT DESC_ESTADO FROM TAB_ESTADOS (NOLOCK) WHERE ID_ESTADO = @PARAM1")
+                comm300.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = val300
+                Dim valcomp300 As String = VALORINTABLA("DESC_ESTADO", "TAB_ESTADOS", "ID_ESTADO", val300, comm300)
+                If valcomp300 <> "" Then
+                    m_Excel_300.Worksheet(1).Row(iCount_300 + 2).Cell(15).Value = valcomp300
                 Else
                     m_Excel_300.Worksheet(1).Row(iCount_300 + 2).Cell(15).Value = RDRACK_300.Tables(0).Rows(iCount_300).Item("ESTADO_MUNICIPIO")
                 End If
@@ -1271,8 +1393,13 @@ Public Class frmNewAssignment
     End Sub
 
     Private Sub CUENTA_NACK(ByVal IdArchivo As Integer)
+        IdArchivo = AntiXssEncoder.HtmlEncode(IdArchivo, False)
         Dim RDRACK As DataSet
-        RDRACK = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & IdArchivo)
+        'RDRACK = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO = " & IdArchivo)
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = IdArchivo
+
+        RDRACK = dsOpenDB(comm)
 
         Dim distinctDT As DataTable = RDRACK.Tables(0).DefaultView.ToTable(True, "ID_AGENCIA")
         Dim drAck() As DataRow
@@ -1286,7 +1413,11 @@ Public Class frmNewAssignment
             drAck = RDRACK.Tables(0).Select("ID_ARCHIVO = " & IdArchivo & " AND ID_AGENCIA = " & distinctDT.Rows(I).Item("ID_AGENCIA"))
             If drAck.Length > 0 Then
                 Dim baseruta As String = Server.MapPath("~/tmpFile/plantilla_ack.xlsx")
-                Dim strAgencia As String = VALORINTABLA("DESC_AGENCIA", "TAB_AGENCIA", "ID_AGENCIA", distinctDT.Rows(I).Item("ID_AGENCIA"))
+                comm = New SqlCommand("SELECT DESC_AGENCIA FROM TAB_AGENCIA (NOLOCK) WHERE ID_AGENCIA = @PARAM1")
+                comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = distinctDT.Rows(I).Item("ID_AGENCIA")
+
+                Dim strAgencia As String = AntiXssEncoder.HtmlEncode(VALORINTABLA("DESC_AGENCIA", "TAB_AGENCIA", "ID_AGENCIA", distinctDT.Rows(I).Item("ID_AGENCIA"), comm), False)
+                strAgencia = AntiXssEncoder.HtmlEncode(strAgencia, False)
                 Dim PathCopia As String = Server.MapPath("~/tmpFile/" & strAgencia.Replace(" ", "_") & ".xlsx")
                 If System.IO.File.Exists(PathCopia) Then
                     File.Delete(PathCopia)
@@ -1366,11 +1497,15 @@ Public Class frmNewAssignment
 
     Private Sub DOWNLOAD_FILE(idAsignacion)
         Dim rdr As DataSet
-        rdr = dsOpenDB("SELECT * FROM ASIGNACIONES WHERE ID_ASIGNACION = '" & idAsignacion & "'")
+        'rdr = dsOpenDB("SELECT * FROM ASIGNACIONES WHERE ID_ASIGNACION = '" & idAsignacion & "'")
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ASIGNACIONES (NOLOCK) WHERE ID_ASIGNACION = @PARAM1 ")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idAsignacion
+
+        rdr = dsOpenDB(comm)
         If rdr.Tables(0).Rows.Count > 0 Then
             Dim binaryData() As Byte = rdr.Tables(0).Rows(0).Item("ARCHIVO")
             Response.Clear()
-            Response.AddHeader("content-disposition", "attachment;filename=" & rdr.Tables(0).Rows(0).Item("NOMBRE_ARCHIVO").ToString.Replace(" ", "_") & "")
+            Response.AddHeader("content-disposition", "attachment;filename=" & AntiXssEncoder.HtmlEncode(rdr.Tables(0).Rows(0).Item("NOMBRE_ARCHIVO").ToString.Replace(" ", "_"), False) & "")
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             Response.OutputStream.Write(binaryData, 0, binaryData.Length)
             Response.End()

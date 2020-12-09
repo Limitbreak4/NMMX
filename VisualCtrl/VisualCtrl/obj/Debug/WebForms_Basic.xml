@@ -46,13 +46,22 @@ Campo generado automáticamente.
 Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
 </remarks>
 </member>
-<member name="F:VisualCtrl.frmCargarAsingacion._grdAsignmentData">
+<member name="F:VisualCtrl.frmCargarAsingacion._FileUpload1">
 <summary>
-Control grdAsignmentData.
+FileUpload1 control.
 </summary>
 <remarks>
-Campo generado automáticamente.
-Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmCargarAsingacion._Button1">
+<summary>
+Button1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.frmDownloadAssignment._grdAsignmentData">
@@ -1372,6 +1381,51 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:VisualCtrl.WebForm1._HiddenField2">
 <summary>
 HiddenField2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm3._form1">
+<summary>
+form1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm3._ScriptManager1">
+<summary>
+ScriptManager1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm3._FileUpload1">
+<summary>
+FileUpload1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm3._Button1">
+<summary>
+Button1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.WebForm3._Label1">
+<summary>
+Label1 control.
 </summary>
 <remarks>
 Auto-generated field.

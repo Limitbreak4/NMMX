@@ -100,7 +100,10 @@ Public Class clsRecord
     End Sub
     Public Sub LOAD(ByVal idRecord As String, ByRef cLoad As clsRecord)
         Dim rdrArchivoDato As DataSet
-        rdrArchivoDato = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO_DATA = '" & idRecord & "'")
+        'rdrArchivoDato = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO_DATA = '" & idRecord & "'")
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ARCHIVOS_DATA (NOLOCK) WHERE ID_ARCHIVO_DATA = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idRecord
+        rdrArchivoDato = dsOpenDB(comm)
         If rdrArchivoDato.Tables(0).Rows.Count > 0 Then
             cLoad.ID_ARCHIVO_DATA = rdrArchivoDato.Tables(0).Rows(0).Item("ID_ARCHIVO_DATA")
             cLoad.ID_ARCHIVO = rdrArchivoDato.Tables(0).Rows(0).Item("ID_ARCHIVO")

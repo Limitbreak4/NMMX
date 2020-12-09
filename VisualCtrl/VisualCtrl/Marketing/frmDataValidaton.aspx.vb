@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports ClosedXML.Excel
 Imports Newtonsoft.Json
-
+Imports System.Data.SqlClient
 
 Public Class WebForm2
     Inherits System.Web.UI.Page
@@ -17,15 +17,20 @@ Public Class WebForm2
 
     Protected Sub Button1_Click(sender As Object, e As EventArgs) Handles cmdValidate.Click
         If fuValidation.HasFile Then
-            Dim rdrRel As DataTable = dsOpenDB("SELECT * FROM TAB_ESTADOS with(nolock) inner join TAB_CP with(nolock) on TAB_ESTADOS.Id_estado_original = TAB_CP.ID_ESTADO").Tables(0)
+            Dim comm As SqlCommand = New SqlCommand("SELECT * FROM TAB_ESTADOS with(nolock) inner join TAB_CP with(nolock) on TAB_ESTADOS.Id_estado_original = TAB_CP.ID_ESTADO")
+
+
+            Dim rdrRel As DataTable = dsOpenDB(comm).Tables(0)
             Dim rowCPEstado(), rowCPAlcaldia(), rowEstadoAlcaldia() As DataRow
             Dim nombrerevisado As String = fuValidation.FileName.Replace(" ", "_")
 
             Dim FILEPATH As String = Server.MapPath("~/tmpFile/" & nombrerevisado)
-            If File.Exists(FILEPATH) Then
+            If validaInjection(FILEPATH) And File.Exists(FILEPATH) Then
                 File.Delete(FILEPATH)
             End If
-            fuValidation.PostedFile.SaveAs(FILEPATH)
+            If validaInjection(FILEPATH) Then
+                fuValidation.PostedFile.SaveAs(FILEPATH)
+            End If
             Dim excelToValidate As New XLWorkbook(FILEPATH)
 
             Dim renglon As Integer
@@ -41,13 +46,13 @@ Public Class WebForm2
             Dim iBlitz50 As Integer = 0
             Dim iBlitz100 As Integer = 0
             Dim iBlitz300 As Integer = 0
-            Dim rdrTodosCPs As DataSet = dsOpenDB("SELECT * FROM TAB_CP NOLOCK")
+            Dim rdrTodosCPs As DataSet = dsOpenDB(New SqlCommand("SELECT * FROM TAB_CP NOLOCK"))
             Dim drowCP() As DataRow
-            Dim rdrAgencia As DataSet = dsOpenDB("SELECT * FROM TAB_AGENCIA WHERE FLG_CANC = 0")
-            Dim rdrCP As DataSet = dsOpenDB("SELECT * FROM TAB_REGION WHERE FLG_CANC = 0 ")
-            Dim rdrEstados As DataSet = dsOpenDB("SELECT * FROM TAB_ESTADOS WHERE FLG_CANC = 0 ")
-            Dim rdrAlcaldia As DataSet = dsOpenDB("select  TAB_REGION.ID_ESTADO, DESC_REGION, CP, FLG_PRIORITARIA,ID_REGION,TAB_REGION.FLG_CANC,GEO, TAB_REGION.ID_AGENCIA, DESC_ESTADO, TAB_ESTADOS.FLG_CANC, GEO_DEFAULT from tab_region inner join tab_estados on tab_region.id_estado = TAB_ESTADOS.ID_ESTADO where tab_region.FLG_CANC = 0") '
-            Dim rdrAgenciaAlcaldia As DataSet = dsOpenDB("select * from TAB_ALCALDIA inner join TAB_AGENCIA on TAB_AGENCIA.ID_AGENCIA = TAB_ALCALDIA.Id_agencia")
+            Dim rdrAgencia As DataSet = dsOpenDB(New SqlCommand("SELECT * FROM TAB_AGENCIA (NOLOCK) WHERE FLG_CANC = 0"))
+            Dim rdrCP As DataSet = dsOpenDB(New SqlCommand("SELECT * FROM TAB_REGION (NOLOCK) WHERE FLG_CANC = 0 "))
+            Dim rdrEstados As DataSet = dsOpenDB(New SqlCommand("SELECT * FROM TAB_ESTADOS (NOLOCK) WHERE FLG_CANC = 0 "))
+            Dim rdrAlcaldia As DataSet = dsOpenDB(New SqlCommand("SELECT TAB_REGION.ID_ESTADO, DESC_REGION, CP, FLG_PRIORITARIA, ID_REGION, TAB_REGION.FLG_CANC,GEO, TAB_REGION.ID_AGENCIA, DESC_ESTADO, TAB_ESTADOS.FLG_CANC, GEO_DEFAULT FROM tab_region inner join tab_estados On tab_region.id_estado = TAB_ESTADOS.ID_ESTADO WHERE tab_region.FLG_CANC = 0"))
+            Dim rdrAgenciaAlcaldia As DataSet = dsOpenDB(New SqlCommand("SELECT * FROM TAB_ALCALDIA inner join TAB_AGENCIA On TAB_AGENCIA.ID_AGENCIA = TAB_ALCALDIA.Id_agencia"))
             Dim dRowAgencia() As DataRow
             Dim dRowBlitz() As DataRow
             Dim rowCom() As DataRow
@@ -85,7 +90,7 @@ Public Class WebForm2
                         unError = True
                     End If
                 End If
-                    If Not estadoValido Then
+                If Not estadoValido Then
                     evaluacion += "Falta estado"
                     unError = True
                 End If

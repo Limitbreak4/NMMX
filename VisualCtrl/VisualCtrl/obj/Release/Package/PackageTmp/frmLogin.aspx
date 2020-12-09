@@ -17,7 +17,7 @@
         </tr>
         <tr>
             <td class="text-center">
-                <asp:TextBox ID="txtPwd" runat="server" TextMode="Password" AutoPostBack="True"></asp:TextBox>
+                <asp:TextBox ID="txtPwd" runat="server" TextMode="Password"></asp:TextBox>
             </td>
         </tr>
         <tr>

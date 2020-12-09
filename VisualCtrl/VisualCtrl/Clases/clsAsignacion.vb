@@ -28,7 +28,11 @@ Public Class clsAsignacion
     End Sub
     Public Sub LOAD(ByVal idAsignacion As String, ByRef cLoad As clsAsignacion)
         Dim rdrAsignacion As DataSet
-        rdrAsignacion = dsOpenDB("SELECT * FROM ASIGNACIONES WHERE ID_ASIGNACION = '" & idAsignacion & "'")
+        'rdrAsignacion = dsOpenDB("SELECT * FROM ASIGNACIONES WHERE ID_ASIGNACION = '" & idAsignacion & "'")
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ASIGNACIONES (NOLOCK) WHERE ID_ASIGNACION = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idAsignacion
+
+        rdrAsignacion = dsOpenDB(comm)
         If rdrAsignacion.Tables(0).Rows.Count > 0 Then
             cLoad.ID_ASIGNACION = rdrAsignacion.Tables(0).Rows(0).Item("ID_ASIGNACION")
             cLoad.FH_ASIGNACION = rdrAsignacion.Tables(0).Rows(0).Item("FH_ASIGNACION")

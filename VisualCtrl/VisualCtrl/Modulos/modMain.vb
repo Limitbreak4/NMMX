@@ -7,6 +7,8 @@ Imports System.Security.Cryptography
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Xml
 Imports System.Net.Mail
+Imports System.Collections.Specialized
+Imports System.Configuration
 
 Module modMain
     Public encode As New cls_EncriptacionRSA
@@ -45,21 +47,65 @@ Module modMain
     Public Sub BORRAR_LOG()
         Dim sSql As String, sFECHA_LOG As String, st As New System.Diagnostics.StackTrace()
         sFECHA_LOG = FORMATEAR_FECHA(DateAdd("d", -180, Now), "C")
-        sSql = "DELETE FROM LOG_SISTEMA WHERE FH_LOG < '" + sFECHA_LOG + "'"
-        ExecuteCmd(sSql)
+        'sSql = "DELETE FROM LOG_SISTEMA WHERE FH_LOG < '" + sFECHA_LOG + "'"
+        Dim comm As SqlCommand = New SqlCommand("DELETE FROM LOG_SISTEMA WHERE FH_LOG < @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.VarChar).Value = sFECHA_LOG
+
+        ExecuteCmd(comm)
     End Sub
 
-    Public Function dsOpenDB(inSQL As String) As DataSet
+    Public Function validaInjection(cadena As String) As Boolean
+
+        If cadena.Contains("..") Then
+            Return False
+        ElseIf cadena.Contains("%00") Then
+            Return False
+        ElseIf cadena.Contains("=") Then
+            Return False
+        ElseIf cadena.Contains("%00") Then
+            Return False
+        ElseIf cadena.Contains("\\") Then
+            Return False
+        ElseIf cadena.Contains("//") Then
+            Return False
+        ElseIf cadena.Contains("./") Then
+            Return False
+        ElseIf cadena.Contains(".\") Then
+            Return False
+        ElseIf cadena.Contains("/.") Then
+            Return False
+        ElseIf cadena.Contains("\.") Then
+            Return False
+        ElseIf cadena.Contains("\/") Then
+            Return False
+        ElseIf cadena.Contains("/\") Then
+            Return False
+            'ElseIf cadena.Count(Function(x) x = ".") > 1 Then
+            '    Return False
+        End If
+        Return True
+    End Function
+
+    Public Function dsOpenDB(command As SqlCommand) As DataSet
         Dim ds As New DataSet
         Dim connStr As String
         connStr = CONEXION()
         Dim connection As SqlConnection
-        Dim command As SqlCommand
+        'Dim command As SqlCommand
         Dim adapter As New SqlDataAdapter
         connection = New SqlConnection(connStr)
         Try
             connection.Open()
-            command = New SqlCommand(inSQL, connection)
+
+            'command = New SqlCommand("SELECT @SEL FROM @TABS WHERE @COND", connection)
+            'command.Parameters.Add("@SEL", SqlDbType.Text).Value = sel
+            'command.Parameters.Add("@TABS", SqlDbType.Text).Value = tabs
+            'If cond.Equals("") Then
+            '    cond = " 1 = 1 "
+            'End If
+
+            'command.Parameters.Add("@COND", SqlDbType.Text).Value = cond
+            command.Connection = connection
             command.CommandTimeout = 0
             adapter.SelectCommand = command
             adapter.SelectCommand.CommandTimeout = 0
@@ -93,7 +139,40 @@ Module modMain
         Return sRES
     End Function
 
-    Public s_Clave As String = "@@yyyymiviejamulayanoesloqueerayanoesloqueerayanoesloqueera@@@1235##"
+    Private Function Cipher(ch As Char, key As Integer) As Char
+        If Not Char.IsLetter(ch) Then
+            Return ch
+        End If
+
+        Dim offset As Integer = Convert.ToInt32(If(Char.IsUpper(ch), "A"c, "a"c))
+        Return ChrW((((Convert.ToInt32(ch) + key) - offset) Mod 26) + offset)
+    End Function
+
+    Public Function Encipher(input As String, key As Integer) As String
+        Dim output As String = String.Empty
+
+        For Each ch As Char In input
+            output += Cipher(ch, key)
+        Next
+
+        Return output
+    End Function
+
+    Public Function Decipher(input As String, key As Integer) As String
+        Return Encipher(input, 26 - key)
+    End Function
+
+
+
+    'Public s_Clave As String = "@@yyyymiviejamulayanoesloqueerayanoesloqueerayanoesloqueera@@@1235##"
+    Public s_Clave As String = Decipher(ConfigurationManager.AppSettings.Get("CODE"), ConfigurationManager.AppSettings.Get("MODE"))
+
+
+    Public Function ClaveReader() As String()
+        Dim code As String = ConfigurationManager.AppSettings.Get("CodeValue")
+        code.ToCharArray()
+
+    End Function
 
     Public Function ConnProcesoLargo() As SqlConnection
         Dim OleDbConn As New SqlClient.SqlConnection
@@ -111,17 +190,20 @@ Module modMain
     End Function
 
 
-    Public Function ExecuteCmd(ByVal StrSql As String) As Boolean
+    Public Function ExecuteCmd(ByRef comm As SqlCommand) As Boolean
         Dim ConnSql As String
         ConnSql = CONEXION()
         Dim OleDbConn As New SqlClient.SqlConnection
         Try
-            Dim cmdExp As SqlClient.SqlCommand
+            'Dim cmdExp As SqlClient.SqlCommand
+
             OleDbConn.ConnectionString = ConnSql
-            cmdExp = New SqlClient.SqlCommand(StrSql, OleDbConn)
-            cmdExp.CommandTimeout = 0
+            'cmdExp = New SqlClient.SqlCommand(StrSql, OleDbConn)
+            'cmdExp.CommandTimeout = 0
+            comm.Connection = OleDbConn
             OleDbConn.Open()
-            cmdExp.ExecuteNonQuery()
+            'cmdExp.ExecuteNonQuery()
+            comm.ExecuteNonQuery()
             Return True
         Catch ex As Exception
             If Debugger.IsAttached Then
@@ -298,13 +380,14 @@ Module modMain
         TrUc = Trim(UCase(StrLine))
     End Function
 
-    Public Function bCAMPO_EXISTE(ByVal TablaIn As String, ByVal CampoIn As String, ByVal ValorIn As String) As Boolean
+    Public Function bCAMPO_EXISTE(ByVal TablaIn As String, ByVal CampoIn As String, ByVal ValorIn As String, ByRef comm As SqlCommand) As Boolean
         Dim st As New System.Diagnostics.StackTrace()
         Dim dsTEMP As DataSet, sSqlT As String, bRES As Boolean = False
         Try
             If Trim(getDATO(False, TablaIn)) <> "" And Trim(getDATO(False, CampoIn)) <> "" And Trim(getDATO(False, ValorIn)) <> "" Then
-                sSqlT = "SELECT * FROM " + TablaIn + " WHERE " + CampoIn + "='" + ValorIn + "'"
-                dsTEMP = dsOpenDB(sSqlT)
+                'sSqlT = "SELECT * FROM " + TablaIn + " WHERE " + CampoIn + "='" + ValorIn + "'"
+
+                dsTEMP = dsOpenDB(comm)
                 If dsTEMP.Tables(0).Rows.Count > 0 Then
                     bRES = True
                 End If
@@ -330,11 +413,11 @@ Module modMain
         End If
     End Sub
 
-    Public Sub CARGAR_COMBO(ByRef ComboIn As DropDownList, ByVal sSql As String, ByVal ID_FIELD As String,
+    Public Sub CARGAR_COMBO(ByRef ComboIn As DropDownList, ByVal comm As SqlCommand, ByVal ID_FIELD As String,
                           ByVal DATE_FIELD As String, ByVal DESC_FIELD As String, Optional ByVal AddBlank As Boolean = False, Optional _
                           bIgnoreValue As Boolean = False)
         Dim rdr As DataSet
-        rdr = dsOpenDB(sSql)
+        rdr = dsOpenDB(comm)
         ComboIn.Items.Clear()
         If AddBlank Then
             ComboIn.Items.Add("")
@@ -367,17 +450,18 @@ Module modMain
     End Sub
 
     Public Function VALORINTABLA(ByVal CampoOut As String, ByVal Tabla As String,
-                                 ByVal CampoWhere As String, ByVal ValorWhere As String) As String
+                                 ByVal CampoWhere As String, ByVal ValorWhere As String, ByVal comm As SqlCommand) As String
         Dim dsTEMP As DataSet, sRES As String = ""
-        If CampoWhere <> "" And ValorWhere <> "" Then
-            dsTEMP = dsOpenDB("SELECT " + CampoOut + " FROM " + Tabla + " WHERE " + CampoWhere + "='" + ValorWhere + "'")
-        Else
-            If CampoWhere <> "" Or ValorWhere <> "" Then
-                Return sRES
-            Else
-                dsTEMP = dsOpenDB("SELECT " + CampoOut + " FROM " + Tabla)
-            End If
-        End If
+        'If CampoWhere <> "" And ValorWhere <> "" Then
+        '    dsTEMP = dsOpenDB(CampoOut, Tabla, CampoWhere + "='" + ValorWhere + "'")
+        'Else
+        '    If CampoWhere <> "" Or ValorWhere <> "" Then
+        '        Return sRES
+        '    Else
+        '        dsTEMP = dsOpenDB(CampoOut, Tabla, "")
+        '    End If
+        'End If
+        dsTEMP = dsOpenDB(comm)
         If dsTEMP.Tables(0).Rows.Count > 0 Then
             With dsTEMP.Tables(0).Rows(0)
                 sRES = getDATO(False, .Item(CampoOut))
@@ -387,10 +471,10 @@ Module modMain
         Return sRES
     End Function
 
-    Public Function bEXISTE_REGISTRO(insSql As String) As Boolean
+    Public Function bEXISTE_REGISTRO(ByRef comm As SqlCommand) As Boolean
         Dim dsEXISTE As DataSet, bEXISTE As Boolean = False, st As New System.Diagnostics.StackTrace()
         Try
-            dsEXISTE = dsOpenDB(insSql)
+            dsEXISTE = dsOpenDB(comm)
             If dsEXISTE.Tables(0).Rows.Count > 0 Then
                 bEXISTE = True
             End If
@@ -455,14 +539,15 @@ Module modMain
         End If
     End Function
 
-    Public Function VALORINTABLAMULTIWHERE(inCAMPO_OUT As String, inTABLA As String, inSTRING_WHERE As String) As String
+    Public Function VALORINTABLAMULTIWHERE(inCAMPO_OUT As String, inTABLA As String, inSTRING_WHERE As String, ByVal comm As SqlCommand) As String
         Dim st As New System.Diagnostics.StackTrace(), dsTEMP As DataSet, sRES As String = ""
         Try
-            If Trim(getDATO(False, inSTRING_WHERE)) <> "" Then
-                dsTEMP = dsOpenDB("SELECT " + inCAMPO_OUT + " FROM " + inTABLA + " " + Trim(getDATO(False, inSTRING_WHERE)))
-            Else
-                dsTEMP = dsOpenDB("SELECT " + inCAMPO_OUT + " FROM " + inTABLA)
-            End If
+            'If Trim(getDATO(False, inSTRING_WHERE)) <> "" Then
+            '    dsTEMP = dsOpenDB(inCAMPO_OUT, inTABLA, " " + Trim(getDATO(False, inSTRING_WHERE)))
+            'Else
+            '    dsTEMP = dsOpenDB(inCAMPO_OUT, inTABLA, "")
+            'End If
+            dsTEMP = dsOpenDB(comm)
             If dsTEMP.Tables(0).Rows.Count > 0 Then
                 sRES = getDATO(False, dsTEMP.Tables(0).Rows(0).Item(inCAMPO_OUT))
             End If
@@ -477,27 +562,6 @@ Module modMain
         Return sRES
     End Function
 
-    Public Function CONVERT_TOBYTE_ARRAY(ByVal value As System.Drawing.Bitmap) As Byte()
-        Dim bitmapBytes As Byte()
-        Using stream As New System.IO.MemoryStream
-            value.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg)
-            bitmapBytes = stream.ToArray
-        End Using
-        Return bitmapBytes
-    End Function
-
-    Public Function IMAGE_2_BYTES(inIMAGEN As Image) As Byte()
-        Dim sTemp As String = Path.GetTempFileName
-        Dim fs As New FileStream(sTemp, FileMode.OpenOrCreate, FileAccess.ReadWrite)
-        inIMAGEN.Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg)
-        fs.Position = 0
-        '
-        Dim imgLength As Integer = CInt(fs.Length)
-        Dim bytes(0 To imgLength - 1) As Byte
-        fs.Read(bytes, 0, imgLength)
-        fs.Close()
-        Return bytes
-    End Function
 
     Public Function FILE_2_BYTES(inFILEPath As String) As Byte()
         Dim buffer() As Byte
@@ -727,7 +791,10 @@ Module modMain
     Public Function NUM_MUESTRAS_SOLICITUD(inNUM_SOLICITUD) As String
         Dim sRES As String = "", dsNUM_MUESTRAS As DataSet
         If IsNumeric(inNUM_SOLICITUD) Then
-            dsNUM_MUESTRAS = dsOpenDB("SELECT COUNT(*) AS TOTAL FROM SOLICITUDES_DETALLES WHERE NUM_SOLICITUD = " & inNUM_SOLICITUD)
+            Dim comm As SqlCommand = New SqlCommand("SELECT COUNT(*) AS TOTAL FROM SOLICITUDES_DETALLES WHERE NUM_SOLICITUD = @PARAM1")
+            comm.Parameters.Add("@PARAM1", SqlDbType.Int).Value = inNUM_SOLICITUD
+
+            dsNUM_MUESTRAS = dsOpenDB(comm)
             sRES = dsNUM_MUESTRAS.Tables(0).Rows(0).Item("TOTAL").ToString
             CIERRA_DATASET(dsNUM_MUESTRAS)
         End If
@@ -1160,28 +1227,49 @@ Module modMain
     End Function
 
     Public Sub INCDOWNLOADS(ByVal idAsignacion)
-        Dim rdrDownload As DataSet = dsOpenDB("SELECT FLG_DESCARGA, VECES_DESCARGA, FH_PRIMERA_DESCARGA, FH_ULTIMA_DESCARGA, ID_USUARIO_PRIMER_DESCARGA, ID_USUARIO_ULTIMA_DESCARGA FROM ASIGNACIONES WHERE ID_ASIGNACION = " & idAsignacion)
-
+        'Dim rdrDownload As DataSet = dsOpenDB("SELECT FLG_DESCARGA, VECES_DESCARGA, FH_PRIMERA_DESCARGA, FH_ULTIMA_DESCARGA, ID_USUARIO_PRIMER_DESCARGA, ID_USUARIO_ULTIMA_DESCARGA FROM ASIGNACIONES WHERE ID_ASIGNACION = " & idAsignacion)
+        'Dim rdrDownload As DataSet = dsOpenDB("FLG_DESCARGA, VECES_DESCARGA, FH_PRIMERA_DESCARGA, FH_ULTIMA_DESCARGA, ID_USUARIO_PRIMER_DESCARGA, ID_USUARIO_ULTIMA_DESCARGA", "ASIGNACIONES", "ID_ASIGNACION = " & idAsignacion)
+        Dim comm As SqlCommand = New SqlCommand("SELECT FLG_DESCARGA, VECES_DESCARGA, FH_PRIMERA_DESCARGA, FH_ULTIMA_DESCARGA, ID_USUARIO_PRIMER_DESCARGA, ID_USUARIO_ULTIMA_DESCARGA FROM ASIGNACIONES WHERE ID_ASIGNACION = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idAsignacion
+        Dim rdrDownload As DataSet = dsOpenDB(comm)
 
         Dim sSql As String = "UPDATE ASIGNACIONES SET "
         sSql &= "FLG_DESCARGA = 1, "
         sSql &= "VECES_DESCARGA = VECES_DESCARGA + 1 , "
         If getDATO(False, rdrDownload.Tables(0).Rows(0).Item("FH_PRIMERA_DESCARGA")) = "" Then
-            sSql &= "FH_PRIMERA_DESCARGA = '" & FORMATEAR_FECHA(Now, "C") & "', "
+            'sSql &= "FH_PRIMERA_DESCARGA = '" & FORMATEAR_FECHA(Now, "C") & "', "
+            sSql &= "FH_PRIMERA_DESCARGA = @PARAM1 ,"
         End If
         If getDATO(False, rdrDownload.Tables(0).Rows(0).Item("ID_USUARIO_PRIMER_DESCARGA")) = "" Then
-            sSql &= "ID_USUARIO_PRIMER_DESCARGA = '" & HttpContext.Current.Session("idUsuario") & "', "
+            'sSql &= "ID_USUARIO_PRIMER_DESCARGA = '" & HttpContext.Current.Session("idUsuario") & "', "
+            sSql &= "ID_USUARIO_PRIMER_DESCARGA = @PARAM2 , "
         End If
 
-        sSql &= "FH_ULTIMA_DESCARGA = '" & FORMATEAR_FECHA(Now, "C") & "', "
-        sSql &= "ID_USUARIO_ULTIMA_DESCARGA = '" & HttpContext.Current.Session("idUsuario") & "' "
+        'sSql &= "FH_ULTIMA_DESCARGA = '" & FORMATEAR_FECHA(Now, "C") & "', "
+        'sSql &= "ID_USUARIO_ULTIMA_DESCARGA = '" & HttpContext.Current.Session("idUsuario") & "' "
+        'sSql &= "WHERE ID_ASIGNACION = " & idAsignacion
+        sSql &= "FH_ULTIMA_DESCARGA = @PARAM3 ,"
+        sSql &= "ID_USUARIO_ULTIMA_DESCARGA = @PARAM4 "
+        sSql &= "WHERE ID_ASIGNACION = @PARAM4" & idAsignacion
 
-        sSql &= "WHERE ID_ASIGNACION = " & idAsignacion
-        ExecuteCmd(sSql)
+        Dim comm2 As SqlCommand = New SqlCommand(sSql)
+        comm2.Parameters.Add("@PARAM1", SqlDbType.VarChar).Value = FORMATEAR_FECHA(Now, "C")
+        comm2.Parameters.Add("@PARAM2", SqlDbType.VarChar).Value = HttpContext.Current.Session("idUsuario")
+        comm2.Parameters.Add("@PARAM3", SqlDbType.VarChar).Value = FORMATEAR_FECHA(Now, "C")
+        comm2.Parameters.Add("@PARAM4", SqlDbType.VarChar).Value = HttpContext.Current.Session("idUsuario")
+        comm2.Parameters.Add("@PARAM5", SqlDbType.BigInt).Value = idAsignacion
+
+
+        ExecuteCmd(comm)
     End Sub
     Public Function SEND_MAIL(ByVal idAsignacion As Integer) As String
-        Dim rdrMailSettings As DataSet = dsOpenDB("SELECT * FROM MAILSETTINGS")
-        Dim rdrAsignacion As DataSet = dsOpenDB("SELECT * FROM ASIGNACIONES INNER JOIN TAB_AGENCIA ON TAB_AGENCIA.ID_AGENCIA = ASIGNACIONES.ID_AGENCIA WHERE ID_ASIGNACION = " & idAsignacion)
+        'Dim rdrMailSettings As DataSet = dsOpenDB("SELECT * FROM MAILSETTINGS")
+        Dim rdrMailSettings As DataSet = dsOpenDB(New SqlCommand("SELECT * FROM MAILSETTINGS (NOLOCK)"))
+        'Dim rdrAsignacion As DataSet = dsOpenDB("SELECT * FROM ASIGNACIONES INNER JOIN TAB_AGENCIA ON TAB_AGENCIA.ID_AGENCIA = ASIGNACIONES.ID_AGENCIA WHERE ID_ASIGNACION = " & idAsignacion)
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ASIGNACIONES INNER JOIN TAB_AGENCIA ON TAB_AGENCIA.ID_AGENCIA = ASIGNACIONES.ID_AGENCIA WHERE ID_ASIGNACION = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idAsignacion
+
+        Dim rdrAsignacion As DataSet = dsOpenDB(comm)
         Dim mUser As String
         Dim mpass As String
         Dim mserver As String
@@ -1211,7 +1299,11 @@ Module modMain
 
         Dim strContacto As String = ""
 
-        Dim rdrContacto As DataSet = dsOpenDB("SELECT * FROM TAB_USUARIOS WHERE ID_AGENCIA = " & rdrAsignacion.Tables(0).Rows(0).Item("ID_AGENCIA") & " AND EMAIL <> '' AND FLG_CANC = 0 AND FLG_CONTACTO_AGENCIA = 1 ")
+        'Dim rdrContacto As DataSet = dsOpenDB("SELECT * FROM TAB_USUARIOS WHERE ID_AGENCIA = " & rdrAsignacion.Tables(0).Rows(0).Item("ID_AGENCIA") & " AND EMAIL <> '' AND FLG_CANC = 0 AND FLG_CONTACTO_AGENCIA = 1 ")
+        comm = New SqlCommand("SELECT * FROM TAB_USUARIOS WHERE ID_AGENCIA = @PARAM1 AND EMAIL <> '' AND FLG_CANC = 0 AND FLG_CONTACTO_AGENCIA = 1 ")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = rdrAsignacion.Tables(0).Rows(0).Item("ID_AGENCIA")
+
+        Dim rdrContacto As DataSet = dsOpenDB(comm)
         If rdrContacto.Tables(0).Rows.Count > 0 Then
 
         Else
@@ -1285,5 +1377,12 @@ Module modMain
             CIERRA_DATASET(rdrMailSettings)
         End Try
 
+    End Function
+    Public Function validaXSS(ByVal cadena As String)
+        If cadena.Contains("<") Or cadena.Contains(">") Or cadena.Contains("'") Or cadena.Contains(".js") Or cadena.Contains("html") Or cadena.Contains("") Then
+            Return False
+
+        End If
+        Return True
     End Function
 End Module

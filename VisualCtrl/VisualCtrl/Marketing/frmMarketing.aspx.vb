@@ -1,4 +1,5 @@
-﻿Public Class frmMarketing
+﻿Imports System.Data.SqlClient
+Public Class frmMarketing
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -10,11 +11,10 @@
         'Add CSS files
         If dropDownCampaigns.Items.Count = 0 Then
 
-            Dim rdrArchivos As DataSet = dsOpenDB("
-            select ID_ARCHIVO,FH_CARGA,nombre_archivo,FH_carga + '-' + nombre_archivo as ids,archivos.ID_CAMPAIGN,NOMBRE_CAMPAIGN 
-            from ARCHIVOS with(nolock) inner join TAB_CAMPAIGNS with (nolock) 
-            on ARCHIVOS.ID_CAMPAIGN = TAB_CAMPAIGNS.ID_CAMPAIGN order by FH_CARGA desc
-            ")
+            Dim rdrArchivos As DataSet = dsOpenDB(New SqlCommand("SELECT 
+            ID_ARCHIVO,FH_CARGA,nombre_archivo,FH_carga + '-' + nombre_archivo as ids,archivos.ID_CAMPAIGN,NOMBRE_CAMPAIGN 
+            FROM ARCHIVOS with(nolock) inner join TAB_CAMPAIGNS with (nolock) 
+            on ARCHIVOS.ID_CAMPAIGN = TAB_CAMPAIGNS.ID_CAMPAIGN order by FH_CARGA desc"))
             Dim campañas() As DataRow = rdrArchivos.Tables(0).Select("1 = 1")
             Dim i As Integer
             For i = 0 To campañas.Count - 1
@@ -35,7 +35,10 @@
     End Sub
 
     Private Sub fillGraphInfo(index As Integer)
-        Dim rdrMerchants As DataSet = dsOpenDB("select * from archivos_data (nolock) where id_archivo = '" & index & "'")
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM archivos_data (nolock) where id_archivo = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = index
+
+        Dim rdrMerchants As DataSet = dsOpenDB(comm)
         Dim countPropDataRow() As DataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'Prop'")
         Dim countProp As Integer = countPropDataRow.Count
         countPropDataRow = rdrMerchants.Tables(0).Select("PORTAFOLIO = 'PROP' and id_agencia <> -1")

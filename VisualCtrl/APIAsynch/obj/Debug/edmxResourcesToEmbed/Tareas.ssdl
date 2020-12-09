@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="nmmxModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TAB_TAREA">
+    <Key>
+      <PropertyRef Name="id_tarea" />
+    </Key>
+    <Property Name="id_tarea" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_archivo" Type="bigint" Nullable="false" />
+    <Property Name="total_lineas" Type="bigint" Nullable="false" />
+    <Property Name="lineas_procesadas" Type="bigint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'nmmx.dbo.TAB_TAREA_ROW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TAB_TAREA_ROW">
+    <Key>
+      <PropertyRef Name="id_row" />
+    </Key>
+    <Property Name="id_row" Type="bigint" Nullable="false" />
+    <Property Name="num_renglon" Type="int" Nullable="false" />
+    <Property Name="id_tarea" Type="bigint" Nullable="false" />
+    <Property Name="llamada_api" Type="varchar" MaxLength="255" />
+    <Property Name="resultado_api" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityContainer Name="nmmxModelStoreContainer">
+    <EntitySet Name="TAB_TAREA" EntityType="Self.TAB_TAREA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TAB_TAREA_ROW" EntityType="Self.TAB_TAREA_ROW" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [TAB_TAREA_ROW].[id_row] AS [id_row], 
+    [TAB_TAREA_ROW].[num_renglon] AS [num_renglon], 
+    [TAB_TAREA_ROW].[id_tarea] AS [id_tarea], 
+    [TAB_TAREA_ROW].[llamada_api] AS [llamada_api], 
+    [TAB_TAREA_ROW].[resultado_api] AS [resultado_api]
+    FROM [dbo].[TAB_TAREA_ROW] AS [TAB_TAREA_ROW]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
