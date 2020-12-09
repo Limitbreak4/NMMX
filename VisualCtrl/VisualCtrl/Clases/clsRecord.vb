@@ -4,22 +4,22 @@ Public Class clsRecord
 
     Public ID_ARCHIVO_DATA As Integer
     Public ID_ARCHIVO As Integer
-    Public COL1 As String 'ASIGNADO
-    Public COL2 As String 'FILE
-    Public COL3 As String 'AGENCIA
-    Public COL4 As String 'BASE_PORTAFOLIO
-    Public COL5 As String 'BANCO
-    Public COL6 As String 'AFILIACIÓN
-    Public COL7 As String 'NOMBRE_ESTABLECIMIENTO
-    Public COL8 As String 'CALLE Y NÚMERO
-    Public COL9 As String ' Colonia
-    Public COL10 As String 'C.P.
-    Public COL11 As String 'Estado o Municipio
-    Public COL12 As String ' CiudAD
-    Public COL13 As String 'Telefono
-    Public COL14 As String 'CanaL
-    Public COL15 As String 'COBERTURA
-    Public COL16 As String 'GEO
+    Public INDUSTRIA As String
+    Public SUBINDUSTRIA As String
+    Public REPRESENTANTELEGAL As String
+    Public COMERCIOSABIA As String
+    Public NUEVOTELEFONO As String
+    Public EMAIL As String
+    Public COMENTARIOS As String
+    Public COL8 As String
+    Public COL9 As String
+    Public COL10 As String
+    Public COL11 As String
+    Public COL12 As String
+    Public COL13 As String
+    Public COL14 As String
+    Public COL15 As String
+    Public COMODIN As String
     Public ASIGNADO As String
     Public FILE As String
     Public BASE As String
@@ -44,19 +44,21 @@ Public Class clsRecord
     Public MOTIVO_RECHAZO As String
     Public PORTAFOLIO As String 'cambioPortafolio
     Public PARTNER As String
+    Public ID_CAMPAIGN As Integer
+
 
 
     Sub CLEAN()
         ID_ARCHIVO_DATA = -1
         ID_ARCHIVO = -1
-        COL1 = "" 'ASIGNADO
-        COL2 = "" 'FILE
-        COL3 = "" 'AGENCIA
-        COL4 = "" 'BASE_PORTAFOLIO
-        COL5 = "" 'BANCO
-        COL6 = "" 'AFILIACIÓN
-        COL7 = "" 'NOMBRE_ESTABLECIMIENTO
-        COL8 = "" 'CALLE Y NÚMERO
+        INDUSTRIA = ""
+        SUBINDUSTRIA = ""
+        REPRESENTANTELEGAL = ""
+        COMERCIOSABIA = ""
+        NUEVOTELEFONO = ""
+        EMAIL = ""
+        COMENTARIOS = ""
+        COMODIN = ""
         COL9 = "" ' Colonia
         COL10 = "" 'C.P.
         COL11 = "" 'Estado o Municipio
@@ -64,7 +66,6 @@ Public Class clsRecord
         COL13 = "" 'Telefono
         COL14 = "" 'CanaL
         COL15 = "" 'COBERTURA
-        COL16 = "" 'GEO
         ASIGNADO = ""
         FILE = ""
         BASE = ""
@@ -95,6 +96,7 @@ Public Class clsRecord
         ' COL22  = ""
         PORTAFOLIO = "" 'cambioPortafolio
         PARTNER = ""
+        ID_CAMPAIGN = -1
     End Sub
     Public Sub LOAD(ByVal idRecord As String, ByRef cLoad As clsRecord)
         Dim rdrArchivoDato As DataSet
@@ -102,13 +104,14 @@ Public Class clsRecord
         If rdrArchivoDato.Tables(0).Rows.Count > 0 Then
             cLoad.ID_ARCHIVO_DATA = rdrArchivoDato.Tables(0).Rows(0).Item("ID_ARCHIVO_DATA")
             cLoad.ID_ARCHIVO = rdrArchivoDato.Tables(0).Rows(0).Item("ID_ARCHIVO")
-            cLoad.COL1 = rdrArchivoDato.Tables(0).Rows(0).Item("COL1")
-            cLoad.COL2 = rdrArchivoDato.Tables(0).Rows(0).Item("COL2")
-            cLoad.COL3 = rdrArchivoDato.Tables(0).Rows(0).Item("COL3")
-            cLoad.COL4 = rdrArchivoDato.Tables(0).Rows(0).Item("COL4")
-            cLoad.COL5 = rdrArchivoDato.Tables(0).Rows(0).Item("COL5")
-            cLoad.COL6 = rdrArchivoDato.Tables(0).Rows(0).Item("COL6")
-            cLoad.COL7 = rdrArchivoDato.Tables(0).Rows(0).Item("COL7")
+            cLoad.INDUSTRIA = rdrArchivoDato.Tables(0).Rows(0).Item("INDUSTRIA")
+            cLoad.SUBINDUSTRIA = rdrArchivoDato.Tables(0).Rows(0).Item("SUBINDUSTRIA")
+            cLoad.REPRESENTANTELEGAL = rdrArchivoDato.Tables(0).Rows(0).Item("REPRESENTANTELEGAL")
+            cLoad.COMERCIOSABIA = rdrArchivoDato.Tables(0).Rows(0).Item("COMERCIOSABIA")
+            cLoad.NUEVOTELEFONO = rdrArchivoDato.Tables(0).Rows(0).Item("NUEVOTELEFONO")
+            cLoad.EMAIL = rdrArchivoDato.Tables(0).Rows(0).Item("EMAIL")
+            cLoad.COMENTARIOS = rdrArchivoDato.Tables(0).Rows(0).Item("COMENTARIOS")
+            cLoad.COMODIN = rdrArchivoDato.Tables(0).Rows(0).Item("COMODIN")
             cLoad.COL8 = rdrArchivoDato.Tables(0).Rows(0).Item("COL8")
             cLoad.COL9 = rdrArchivoDato.Tables(0).Rows(0).Item("COL9")
             cLoad.COL10 = rdrArchivoDato.Tables(0).Rows(0).Item("COL10")
@@ -117,7 +120,7 @@ Public Class clsRecord
             cLoad.COL13 = rdrArchivoDato.Tables(0).Rows(0).Item("COL13")
             cLoad.COL14 = rdrArchivoDato.Tables(0).Rows(0).Item("COL14")
             cLoad.COL15 = rdrArchivoDato.Tables(0).Rows(0).Item("COL15")
-            cLoad.COL16 = rdrArchivoDato.Tables(0).Rows(0).Item("COL16")
+
             cLoad.ASIGNADO = rdrArchivoDato.Tables(0).Rows(0).Item("ASIGNADO")
             cLoad.FILE = rdrArchivoDato.Tables(0).Rows(0).Item("FILE")
             cLoad.BASE = rdrArchivoDato.Tables(0).Rows(0).Item("BASE")
@@ -146,7 +149,7 @@ Public Class clsRecord
             'cLoad.PRIORIDAD = rdrArchivoDato.Tables(0).Rows(0).Item("PRIORIDAD")
             cLoad.PORTAFOLIO = rdrArchivoDato.Tables(0).Rows(0).Item("PORTAFOLIO") 'cambioPortafolio
             cLoad.PARTNER = rdrArchivoDato.Tables(0).Rows(0).Item("PARTNER")
-
+            cLoad.PARTNER = rdrArchivoDato.Tables(0).Rows(0).Item("ID_CAMPAIGN")
         End If
         CIERRA_DATASET(rdrArchivoDato)
     End Sub
@@ -155,11 +158,11 @@ Public Class clsRecord
         If cSave.ID_ARCHIVO_DATA = -1 Then
             'Select Case tipoBlitz
 
-            cSave.ID_ARCHIVO_DATA = ExecuteCmdScalar("INSERT INTO ARCHIVOS_DATA(FH_INSERT)VALUES('" & FORMATEAR_FECHA(System.DateTime.Now, "C") & "');SELECT SCOPE_IDENTITY()")
+            cSave.ID_ARCHIVO_DATA = ExecuteCmdScalar("INSERT INTO ARCHIVOS_DATA(FH_INSERT)VALUES('" & FORMATEAR_FECHA(System.DateTime.Now, "C") & "');SELECT SCOPE_IDENTITY()", existingConnection)
             DTInsert = "ARCHIVOS_DATA"
             'End Select
         End If
-        Dim daAdapter As New SqlDataAdapter
+        Dim daAdapter As SqlDataAdapter
         Dim cmdBuilder = New SqlCommandBuilder
         Dim dsDataset As New DataSet()
         Dim conSql As String = CONEXION()
@@ -172,13 +175,14 @@ Public Class clsRecord
         cmdBuilder = New SqlCommandBuilder(daAdapter)
         daAdapter.Fill(dsDataset, DTInsert)
         dsDataset.Tables(DTInsert).Rows(0)("ID_ARCHIVO") = cSave.ID_ARCHIVO
-        dsDataset.Tables(DTInsert).Rows(0)("COL1") = cSave.COL1
-        dsDataset.Tables(DTInsert).Rows(0)("COL2") = cSave.COL2
-        dsDataset.Tables(DTInsert).Rows(0)("COL3") = cSave.COL3
-        dsDataset.Tables(DTInsert).Rows(0)("COL4") = cSave.COL4
-        dsDataset.Tables(DTInsert).Rows(0)("COL5") = cSave.COL5
-        dsDataset.Tables(DTInsert).Rows(0)("COL6") = cSave.COL6
-        dsDataset.Tables(DTInsert).Rows(0)("COL7") = cSave.COL7
+        dsDataset.Tables(DTInsert).Rows(0)("INDUSTRIA") = cSave.INDUSTRIA
+        dsDataset.Tables(DTInsert).Rows(0)("SUBINDUSTRIA") = cSave.SUBINDUSTRIA
+        dsDataset.Tables(DTInsert).Rows(0)("REPRESENTANTELEGAL") = cSave.REPRESENTANTELEGAL
+        dsDataset.Tables(DTInsert).Rows(0)("COMERCIOSABIA") = cSave.COMERCIOSABIA
+        dsDataset.Tables(DTInsert).Rows(0)("NUEVOTELEFONO") = cSave.NUEVOTELEFONO
+        dsDataset.Tables(DTInsert).Rows(0)("EMAIL") = cSave.EMAIL
+        dsDataset.Tables(DTInsert).Rows(0)("COMENTARIOS") = cSave.COMENTARIOS
+        dsDataset.Tables(DTInsert).Rows(0)("COMODIN") = cSave.COMODIN
         dsDataset.Tables(DTInsert).Rows(0)("COL8") = cSave.COL8
         dsDataset.Tables(DTInsert).Rows(0)("COL9") = cSave.COL9
         dsDataset.Tables(DTInsert).Rows(0)("COL10") = cSave.COL10
@@ -187,7 +191,7 @@ Public Class clsRecord
         dsDataset.Tables(DTInsert).Rows(0)("COL13") = cSave.COL13
         dsDataset.Tables(DTInsert).Rows(0)("COL14") = cSave.COL14
         dsDataset.Tables(DTInsert).Rows(0)("COL15") = cSave.COL15
-        dsDataset.Tables(DTInsert).Rows(0)("COL16") = cSave.COL16
+
         dsDataset.Tables(DTInsert).Rows(0).Item("ASIGNADO") = cSave.ASIGNADO
         dsDataset.Tables(DTInsert).Rows(0).Item("FILE") = cSave.FILE
         dsDataset.Tables(DTInsert).Rows(0).Item("BASE") = cSave.BASE
@@ -216,7 +220,7 @@ Public Class clsRecord
         'dsDataset.Tables(DTInsert).Rows(0)("COBERTURA") = cSave.COBERTURA
         'dsDataset.Tables(DTInsert).Rows(0)("PRIORIDAD") = cSave.PRIORIDAD
 
-        'dsDataset.Tables(DTInsert).Rows(0)("ID_AGENCIA") = cSave.ID_AGENCIA
+        dsDataset.Tables(DTInsert).Rows(0)("ID_CAMPAIGN") = cSave.ID_CAMPAIGN
 
 
         If dsDataset.HasChanges Then

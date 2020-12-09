@@ -3,24 +3,45 @@
 
         <table style="width:100%;">
             <tr>
-                <td style="width: 307px" class="modal-sm"><strong>UPLOAD A FILE WITH PROCESS TO VISIT</strong></td>
-                <td><strong></strong></td>
-                <td><strong></strong></td>
+                <td style="width: 290px; height: 11px;" class="modal-sm"><strong>SELECT RELATED CAMPAIGN</strong></td>
+                <td class="auto-style12" style="height: 11px; width: 247px;"><strong></strong></td>
+                <td class="auto-style12" style="height: 11px; width: 249px;"><strong></strong></td>
+            </tr>
+                        <tr>
+                <td style="width: 290px; height: 33px;" class="modal-sm"><asp:DropDownList ID="dropCampaigns" runat="server" Width="512px" AutoPostBack="True" Height="19px">
+                </asp:DropDownList></td>
+                <td style="height: 33px; width: 247px;"><strong>&nbsp;</strong><span style="font-weight: bold">INCLUDE BLITZ IN PLANNING</span></td>
+                <td style="height: 33px; width: 249px;">&nbsp;</td>
+            </tr>
+                        <tr>
+                <td style="width: 290px; height: 37px;" class="modal-sm"><strong>
+                    <br />
+                    UPLOAD A FILE WITH PROCESS TO VISIT<br />
+                    </strong>
+                    <asp:FileUpload ID="fu" runat="server" Width="430px" style="margin-top: 0" />
+                            </td>
+                <td style="height: 37px; width: 247px;">
+                 <asp:CheckBox ID="chkBlitz1" runat="server" Text="Include Geo 1 blitz" />
+                    <br />
+                    <asp:CheckBox ID="chkBlitz2" runat="server" Text="Include Geo 2 blitz" />
+                    <br />
+                    <asp:CheckBox ID="chkBlitz3" runat="server" Text="Include Geo 3 blitz" />
+                            </td>
+                <td style="height: 37px"><strong></strong></td>
             </tr>
             <tr>
-                <td style="width: 307px; height: 22px;">
-                    <asp:FileUpload ID="fu" runat="server" Width="430px" />
-                </td>
-                <td style="height: 22px">
+                <td style="width: 290px; height: 56px;">
+                    &nbsp;</td>
+                <td style="height: 56px; width: 247px;">
                     <asp:Button ID="cmdIniciaProces" runat="server" Text="Process File" BackColor="#1871BE" BorderStyle="None" ForeColor="White" />
                 </td>
-                <td style="height: 22px"></td>
+                <td style="height: 56px; width: 249px;"></td>
             </tr>
             <tr>
-                <td style="width: 307px" class="modal-sm">
+                <td style="width: 290px" class="modal-sm">
                     &nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td class="modal-sm" style="width: 247px">&nbsp;</td>
+                <td style="width: 249px">&nbsp;</td>
             </tr>
         </table>
 

@@ -2,9 +2,53 @@
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("idUsuario") = "" Then
+            Response.Redirect("~/Default.aspx")
+        End If
 
         TryCast(Master.FindControl("lblPage"), Label).Text = "Marketing Main Page"
         'Add CSS files
+        Dim rdrCampañas As DataSet = dsOpenDB("select distinct([FILE]) as 'ids' from ARCHIVOS_DATA (nolock)")
+        Dim campañas() As DataRow = rdrCampañas.Tables(0).Select("1 = 1")
+        Dim i As Integer
+        For i = 0 To campañas.Count - 1
+            Try
+                dropDownCampaigns.Items.Add(campañas(i).Item("ids"))
+            Catch
+            End Try
+        Next
+
+        Dim rdrMerchants As DataSet = dsOpenDB("select * from archivos_data (nolock)")
+        Dim countPropDataRow() As DataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'PROP'")
+        Dim countProp As Integer = countPropDataRow.Count
+        countPropDataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'PROP' and id_agencia <> -1")
+        Dim PropAsignados As Integer = countPropDataRow.Count
+        Dim PropNoAsignados = countProp - PropAsignados
+        Dim tempProp As Double = PropAsignados / countProp * 100
+        Dim assignationRateProp As String = tempProp.ToString
+        assignationRateProp = assignationRateProp.Substring(0, assignationRateProp.IndexOf(".") + 3)
+
+        Dim countOBDataRow() As DataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'OB'")
+        Dim countOB As Integer = countOBDataRow.Count
+        countPropDataRow = rdrMerchants.Tables(0).Select("ID_ARCHIVO = 29 and PORTAFOLIO = 'OB' and id_agencia <> -1")
+        Dim OBAsignados As Integer = countPropDataRow.Count
+        Dim OBNoAsignados = countOB - OBAsignados
+        Dim tempOB As Double = OBAsignados / countOB * 100
+        Dim assignationRateOB As String = tempOB.ToString
+        assignationRateOB = assignationRateOB.Substring(0, assignationRateOB.IndexOf(".") + 3)
+
+        totalMerchants.Value = countProp + countOB
+
+        hfLIFsProp.Value = countProp
+        hfLIFsOB.Value = countOB
+        hfAssignedOB.Value = OBAsignados
+        hfAssignedProp.Value = PropAsignados
+        hfNotAssignedOB.Value = OBNoAsignados
+        hfNotAssignedProp.Value = PropNoAsignados
+        hfAssignationRateOB.Value = assignationRateOB
+        hfAssignationRateProp.Value = assignationRateProp
+
+
 
         Dim css1 As New System.Web.UI.HtmlControls.HtmlLink()
         css1.Href = "BarChart.css"
@@ -28,69 +72,43 @@
         obt = 1500
         propt = 1200
 
-        OBTotalVisits.Value = obt
-        PropTotalVisits.Value = propt
-        TotalVisits.Value = (propt + obt)
 
 
-        Dim orgpop, plapop As Integer
-        orgpop = 17
-        plapop = 35
-        OrganicPop.Value = orgpop
-        PlacedPop.Value = plapop
-        TotalPopCoverage.Value = orgpop + plapop
 
-        Dim obtot, oborg, obpla, proptot, proporg, proppla As Integer
-        obpla = 38
-        oborg = 22
-        obtot = obpla + oborg
-        proppla = 41
-        proporg = 12
-        proptot = proptot + proppla
-        OBtotal.Value = obtot
-        OBplaced.Value = obpla
-        OBorganic.Value = oborg
-        PropTotal.Value = proptot
-        Proporganic.Value = proporg
-        Propplaced.Value = proppla
+
 
         Dim resestemes As String = "[{ ""letter"": ""OB"", ""frequency"": """ + obt.ToString() + """ },
             { ""letter"": ""Prop"", ""frequency"": """ + propt.ToString() + """ }]"
 
-        CompletedJSON.Value = resestemes
-
-        Dim visits(0 To 11) As Integer
-
-        visits(0) = 700
-        visits(1) = 1500
-        visits(2) = 1200
-        visits(3) = 2000
-        visits(4) = 1700
-        visits(5) = 2500
-        visits(6) = 2200
-        visits(7) = 3000
-        visits(8) = 2700
-        visits(9) = 3500
-        visits(10) = 3200
-        visits(11) = 4000
+        Dim mesesPresent(0 To 3) As Integer
+        Dim mesesPlaced(0 To 3) As Integer
+        mesesPresent(0) = countProp
+        mesesPresent(1) = PropAsignados
+        mesesPresent(2) = 15
+        mesesPresent(3) = 15
 
 
-        Dim visitsdata = "[
-            { ""letter"": ""Jan"", ""frequency"": """ + visits(0).ToString() + """ },
-            { ""letter"": ""Feb"", ""frequency"": """ + visits(1).ToString() + """ },
-            { ""letter"": ""Mar"", ""frequency"": """ + visits(2).ToString() + """ },
-            { ""letter"": ""Apr"", ""frequency"": """ + visits(3).ToString() + """ },
-            { ""letter"": ""May"", ""frequency"": """ + visits(4).ToString() + """ },
-            { ""letter"": ""Jun"", ""frequency"": """ + visits(5).ToString() + """ },
-            { ""letter"": ""Jul"", ""frequency"": """ + visits(6).ToString() + """ },
-            { ""letter"": ""Aug"", ""frequency"": """ + visits(7).ToString() + """ },
-            { ""letter"": ""Sep"", ""frequency"": """ + visits(8).ToString() + """ },
-            { ""letter"": ""Oct"", ""frequency"": """ + visits(9).ToString() + """ },
-            { ""letter"": ""Nov"", ""frequency"": """ + visits(10).ToString() + """ },
-            { ""letter"": ""Dec"", ""frequency"": """ + visits(11).ToString() + """ }]"
+        mesesPlaced(0) = countOB
+        mesesPlaced(1) = OBAsignados
+        mesesPlaced(2) = 15
+        mesesPlaced(3) = 15
 
-        DownstreamJSON.Value = visitsdata
+
+
+
+        Dim json As String = "[
+        { month: ""LIFs"", Prop: """ + mesesPresent(0).ToString() + """, OB: """ + mesesPlaced(0).ToString() + """ },
+        { month: ""Assigned"", Prop: """ + mesesPresent(1).ToString() + """, OB: """ + mesesPlaced(1).ToString() + """ },
+        { month: ""Visited"", Prop: """ + mesesPresent(2).ToString() + """, OB: """ + mesesPlaced(2).ToString() + """},
+        { month: ""Completed"", Prop: """ + mesesPresent(3).ToString() + """, OB: """ + mesesPlaced(3).ToString() + """},
+
+    ]"
+
+        mesesJSON.Value = json
 
     End Sub
 
+    Private Sub dropDownCampaigns_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dropDownCampaigns.SelectedIndexChanged
+
+    End Sub
 End Class

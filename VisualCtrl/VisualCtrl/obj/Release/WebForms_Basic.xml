@@ -613,6 +613,150 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:VisualCtrl.frmMarketing._hfLIFsProp">
+<summary>
+hfLIFsProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._hfLIFsOB">
+<summary>
+hfLIFsOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._hfAssignedProp">
+<summary>
+hfAssignedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._hfAssignedOB">
+<summary>
+hfAssignedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._hfNotAssignedProp">
+<summary>
+hfNotAssignedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._hfNotAssignedOB">
+<summary>
+hfNotAssignedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._hfAssignationRateProp">
+<summary>
+hfAssignationRateProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._hfAssignationRateOB">
+<summary>
+hfAssignationRateOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtLifsOB">
+<summary>
+txtLifsOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtLifsProp">
+<summary>
+txtLifsProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtAssignedOB">
+<summary>
+txtAssignedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtAssignedProp">
+<summary>
+txtAssignedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtVisitedOB">
+<summary>
+txtVisitedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtVisitedProp">
+<summary>
+txtVisitedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtCompletedOB">
+<summary>
+txtCompletedOB control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:VisualCtrl.frmMarketing._txtCompletedProp">
+<summary>
+txtCompletedProp control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:VisualCtrl.frmMarketing._Button1">
 <summary>
 Button1 control.
@@ -631,135 +775,18 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:VisualCtrl.frmMarketing._TotalVisits">
+<member name="F:VisualCtrl.frmMarketing._mesesJSON">
 <summary>
-TotalVisits control.
+mesesJSON control.
 </summary>
 <remarks>
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:VisualCtrl.frmMarketing._OBTotalVisits">
+<member name="F:VisualCtrl.frmMarketing._totalMerchants">
 <summary>
-OBTotalVisits control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._PropTotalVisits">
-<summary>
-PropTotalVisits control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._TotalPopCoverage">
-<summary>
-TotalPopCoverage control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._OrganicPop">
-<summary>
-OrganicPop control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._PlacedPop">
-<summary>
-PlacedPop control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._OBtotal">
-<summary>
-OBtotal control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._PropTotal">
-<summary>
-PropTotal control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._OBorganic">
-<summary>
-OBorganic control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._Proporganic">
-<summary>
-Proporganic control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._OBplaced">
-<summary>
-OBplaced control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._Propplaced">
-<summary>
-Propplaced control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._CompletedJSON">
-<summary>
-CompletedJSON control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._DownstreamJSON">
-<summary>
-DownstreamJSON control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:VisualCtrl.frmMarketing._MesesJSON">
-<summary>
-MesesJSON control.
+totalMerchants control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -926,15 +953,6 @@ Control grdStates300.
 <remarks>
 Campo generado automáticamente.
 Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-</remarks>
-</member>
-<member name="F:VisualCtrl.grafica._mesesJSON">
-<summary>
-mesesJSON control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:VisualCtrl.AgencyMaster._Menu1">

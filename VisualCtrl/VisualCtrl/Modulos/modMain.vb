@@ -135,28 +135,42 @@ Module modMain
         End Try
     End Function
 
-    Public Function ExecuteCmdScalar(ByVal StrSql As String) As String
+    Public Function ExecuteCmdScalar(ByVal StrSql As String, Optional ByRef existingConnection As SqlConnection = Nothing) As String
         Dim ConnSql As String
         Dim res As String = ""
-        ConnSql = CONEXION()
-        Dim OleDbConn As New SqlClient.SqlConnection
-        Try
-            Dim cmdExp As SqlClient.SqlCommand
-            OleDbConn.ConnectionString = ConnSql
-            cmdExp = New SqlClient.SqlCommand(StrSql, OleDbConn)
-            cmdExp.CommandTimeout = 0
-            OleDbConn.Open()
-            res = cmdExp.ExecuteScalar()
-        Catch ex As Exception
-            If Debugger.IsAttached Then
-                MsgBox(ex.Message.ToString, vbCritical)
-            End If
-            Return ""
-        Finally
-            If OleDbConn.State = ConnectionState.Open Then
-                OleDbConn.Close()
-            End If
-        End Try
+        Dim cmdExp As SqlClient.SqlCommand
+        If IsNothing(existingConnection) Then
+            ConnSql = CONEXION()
+            Dim OleDbConn As New SqlClient.SqlConnection
+            Try
+
+                OleDbConn.ConnectionString = ConnSql
+                cmdExp = New SqlClient.SqlCommand(StrSql, OleDbConn)
+                cmdExp.CommandTimeout = 0
+                OleDbConn.Open()
+                res = cmdExp.ExecuteScalar()
+            Catch ex As Exception
+                If Debugger.IsAttached Then
+                    MsgBox(ex.Message.ToString, vbCritical)
+                End If
+                Return ""
+            Finally
+                If OleDbConn.State = ConnectionState.Open Then
+                    OleDbConn.Close()
+                End If
+            End Try
+        Else
+            Try
+                cmdExp = New SqlClient.SqlCommand(StrSql, existingConnection)
+                cmdExp.CommandTimeout = 0
+                res = cmdExp.ExecuteScalar()
+            Catch ex As Exception
+                If Debugger.IsAttached Then
+                    MsgBox(ex.Message.ToString, vbCritical)
+                End If
+                Return ""
+            End Try
+        End If
         Return res
     End Function
 
@@ -317,7 +331,7 @@ Module modMain
     End Sub
 
     Public Sub CARGAR_COMBO(ByRef ComboIn As DropDownList, ByVal sSql As String, ByVal ID_FIELD As String,
-                          ByVal DESC_FIELD As String, Optional ByVal AddBlank As Boolean = False, Optional _
+                          ByVal DATE_FIELD As String, ByVal DESC_FIELD As String, Optional ByVal AddBlank As Boolean = False, Optional _
                           bIgnoreValue As Boolean = False)
         Dim rdr As DataSet
         rdr = dsOpenDB(sSql)
@@ -328,14 +342,23 @@ Module modMain
         End If
         For I As Integer = 0 To rdr.Tables(0).Rows.Count - 1
             If AddBlank Then
-                ComboIn.Items.Add(rdr.Tables(0).Rows(I).Item(DESC_FIELD))
+                If DATE_FIELD = "" Then
+                    ComboIn.Items.Add(rdr.Tables(0).Rows(I).Item(DESC_FIELD))
+                Else
+                    ComboIn.Items.Add(rdr.Tables(0).Rows(I).Item(DATE_FIELD) & " - " & rdr.Tables(0).Rows(I).Item(DESC_FIELD))
+                End If
+
                 'Debug.Print(rdr.Tables(0).Rows(I).Item(DESC_FIELD))
                 'Debug.Print(rdr.Tables(0).Rows(I).Item(ID_FIELD))
                 If Not bIgnoreValue Then
                     ComboIn.Items(I + 1).Value = rdr.Tables(0).Rows(I).Item(ID_FIELD)
                 End If
             Else
-                ComboIn.Items.Add(rdr.Tables(0).Rows(I).Item(DESC_FIELD))
+                If DATE_FIELD = "" Then
+                    ComboIn.Items.Add(rdr.Tables(0).Rows(I).Item(DESC_FIELD))
+                Else
+                    ComboIn.Items.Add(rdr.Tables(0).Rows(I).Item(DATE_FIELD) & " - " & rdr.Tables(0).Rows(I).Item(DESC_FIELD))
+                End If
                 If Not bIgnoreValue Then
                     ComboIn.Items(I).Value = rdr.Tables(0).Rows(I).Item(ID_FIELD)
                 End If
