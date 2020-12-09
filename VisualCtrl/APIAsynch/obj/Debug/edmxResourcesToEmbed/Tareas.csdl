@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="nmmxModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="TAB_TAREA">
+    <Key>
+      <PropertyRef Name="id_tarea" />
+    </Key>
+    <Property Name="id_tarea" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_archivo" Type="Int64" Nullable="false" />
+    <Property Name="total_lineas" Type="Int64" Nullable="false" />
+    <Property Name="lineas_procesadas" Type="Int64" />
+    <Property Name="geo1" Type="Byte" />
+    <Property Name="geo2" Type="Byte" />
+    <Property Name="blitz1" Type="Byte" />
+    <Property Name="blitz2" Type="Byte" />
+    <Property Name="blitz3" Type="Byte" />
+  </EntityType>
+  <EntityType Name="TAB_TAREA_ROW">
+    <Key>
+      <PropertyRef Name="id_row" />
+    </Key>
+    <Property Name="id_row" Type="Int64" Nullable="false" />
+    <Property Name="num_renglon" Type="Int32" Nullable="false" />
+    <Property Name="id_tarea" Type="Int64" Nullable="false" />
+    <Property Name="llamada_api" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="resultado_api" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="nmmxEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TAB_TAREA" EntityType="Self.TAB_TAREA" />
+    <EntitySet Name="TAB_TAREA_ROW" EntityType="Self.TAB_TAREA_ROW" />
+  </EntityContainer>
+</Schema>

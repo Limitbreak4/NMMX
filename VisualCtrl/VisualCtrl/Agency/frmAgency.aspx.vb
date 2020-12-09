@@ -1,4 +1,6 @@
-﻿Public Class frmAgency
+﻿Imports System.Data.SqlClient
+Imports System.Web.Security.AntiXss
+Public Class frmAgency
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -11,17 +13,19 @@
 
         If Not IsPostBack Then
             INICIALIZAR_FORM()
-            TryCast(Master.FindControl("lblPage"), Label).Text = "Agencias"
-            TryCast(Master.FindControl("lblUsuario"), Label).Text = Session("NombreCompleto").ToString.ToUpperInvariant
+            TryCast(Master.FindControl("lblPage"), Label).Text = AntiXssEncoder.HtmlEncode("Agencias", False)
+            TryCast(Master.FindControl("lblUsuario"), Label).Text = AntiXssEncoder.HtmlEncode(Session("NombreCompleto").ToString.ToUpperInvariant, False)
         End If
     End Sub
 
     Private Sub INICIALIZAR_FORM()
         Dim rdrAsignaciones As DataSet
-        Dim sSql As String = "SELECT ID_ASIGNACION, FH_ASIGNACION, NOMBRE_ARCHIVO FROM ASIGNACIONES "
-        sSql &= "WHERE FLG_CANC = 0 AND ARCHIVO_ACK = 1 AND FLG_DESCARGA = 0 "
-        sSql &= "AND ID_AGENCIA = " & Session("ID_AGENCIA")
-        rdrAsignaciones = dsOpenDB(sSql)
+        Dim sel As String = "SELECT ID_ASIGNACION, FH_ASIGNACION, NOMBRE_ARCHIVO "
+        sel += "FROM ASIGNACIONES (nolock) "
+        sel += " WHERE FLG_CANC = 0 And ARCHIVO_ACK = 1 And FLG_DESCARGA = 0 And ID_AGENCIA = " & Session("ID_AGENCIA")
+        'rdrAsignaciones = dsOpenDB(sel, tabs, cond)
+        Dim comm As SqlCommand = New SqlCommand(sel)
+        rdrAsignaciones = dsOpenDB(comm)
         grdAsignmentData.DataSource = rdrAsignaciones.Tables(0)
         grdAsignmentData.DataBind()
     End Sub
@@ -35,10 +39,15 @@
 
     Private Sub DOWNLOAD_FILE(idAsignacion As Integer)
         Dim rdr As DataSet
-        rdr = dsOpenDB("SELECT * FROM ASIGNACIONES WHERE ID_ASIGNACION = '" & idAsignacion & "'")
+        'rdr = dsOpenDB("Select * FROM ASIGNACIONES WHERE ID_ASIGNACION = '" & idAsignacion & "'")
+        'rdr = dsOpenDB("*", "ASIGNACIONES", "ID_ASIGNACION = '" & idAsignacion & "'")
+        Dim comm As SqlCommand = New SqlCommand("Select * FROM ASIGNACIONES WHERE ID_ASIGNACION = @PARAM1")
+        idAsignacion = AntiXssEncoder.HtmlEncode(idAsignacion, False)
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idAsignacion
+        rdr = dsOpenDB(comm)
         If rdr.Tables(0).Rows.Count > 0 Then
             Dim binaryData() As Byte = rdr.Tables(0).Rows(0).Item("ARCHIVO")
-            Dim nombrearchivo As String = rdr.Tables(0).Rows(0).Item("NOMBRE_ARCHIVO").ToString.Replace(" ", "_")
+            Dim nombrearchivo As String = AntiXssEncoder.HtmlEncode(rdr.Tables(0).Rows(0).Item("NOMBRE_ARCHIVO").ToString.Replace(" ", "_"), False)
             INCDOWNLOADS(idAsignacion)
             'INICIALIZAR_FORM()
             Response.Clear()

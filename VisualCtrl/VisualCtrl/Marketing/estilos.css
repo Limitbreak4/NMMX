@@ -1,0 +1,22 @@
+﻿body {
+}
+
+.celda{
+    border-width:1px;
+    border-style:solid;
+    text-align:center;
+}
+
+.encabezado {
+    border-width: 1px;
+    border-style: solid;
+    text-align: center;
+    font-weight: bold;
+}
+
+.primeracolumna {
+    border-width: 1px;
+    border-style: solid;
+    text-align: left;
+    font-weight: bold;
+}

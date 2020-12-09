@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="nmmxModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TAB_TAREA">
+          <Key>
+            <PropertyRef Name="id_tarea" />
+          </Key>
+          <Property Name="id_tarea" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_archivo" Type="bigint" Nullable="false" />
+          <Property Name="total_lineas" Type="bigint" Nullable="false" />
+          <Property Name="lineas_procesadas" Type="bigint" />
+          <Property Name="geo1" Type="tinyint" />
+          <Property Name="geo2" Type="tinyint" />
+          <Property Name="blitz1" Type="tinyint" />
+          <Property Name="blitz2" Type="tinyint" />
+          <Property Name="blitz3" Type="tinyint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'nmmx.dbo.TAB_TAREA_ROW' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TAB_TAREA_ROW">
+          <Key>
+            <PropertyRef Name="id_row" />
+            
+            
+          </Key>
+          <Property Name="id_row" Type="bigint" Nullable="false" />
+          <Property Name="num_renglon" Type="int" Nullable="false" />
+          <Property Name="id_tarea" Type="bigint" Nullable="false" />
+          <Property Name="llamada_api" Type="varchar" MaxLength="255" />
+          <Property Name="resultado_api" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityContainer Name="nmmxModelStoreContainer">
+          <EntitySet Name="TAB_TAREA" EntityType="Self.TAB_TAREA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TAB_TAREA_ROW" EntityType="Self.TAB_TAREA_ROW" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TAB_TAREA_ROW].[id_row] AS [id_row], 
+    [TAB_TAREA_ROW].[num_renglon] AS [num_renglon], 
+    [TAB_TAREA_ROW].[id_tarea] AS [id_tarea], 
+    [TAB_TAREA_ROW].[llamada_api] AS [llamada_api], 
+    [TAB_TAREA_ROW].[resultado_api] AS [resultado_api]
+    FROM [dbo].[TAB_TAREA_ROW] AS [TAB_TAREA_ROW]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="nmmxModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TAB_TAREA">
+          <Key>
+            <PropertyRef Name="id_tarea" />
+          </Key>
+          <Property Name="id_tarea" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_archivo" Type="Int64" Nullable="false" />
+          <Property Name="total_lineas" Type="Int64" Nullable="false" />
+          <Property Name="lineas_procesadas" Type="Int64" />
+          <Property Name="geo1" Type="Byte" />
+          <Property Name="geo2" Type="Byte" />
+          <Property Name="blitz1" Type="Byte" />
+          <Property Name="blitz2" Type="Byte" />
+          <Property Name="blitz3" Type="Byte" />
+        </EntityType>
+        <EntityType Name="TAB_TAREA_ROW">
+          <Key>
+            <PropertyRef Name="id_row" />
+          </Key>
+          <Property Name="id_row" Type="Int64" Nullable="false" />
+          <Property Name="num_renglon" Type="Int32" Nullable="false" />
+          <Property Name="id_tarea" Type="Int64" Nullable="false" />
+          <Property Name="llamada_api" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="resultado_api" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="nmmxEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TAB_TAREA" EntityType="Self.TAB_TAREA" />
+          <EntitySet Name="TAB_TAREA_ROW" EntityType="Self.TAB_TAREA_ROW" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="nmmxModelStoreContainer" CdmEntityContainer="nmmxEntities">
+          <EntitySetMapping Name="TAB_TAREA">
+            <EntityTypeMapping TypeName="nmmxModel.TAB_TAREA">
+              <MappingFragment StoreEntitySet="TAB_TAREA">
+                <ScalarProperty Name="blitz3" ColumnName="blitz3" />
+                <ScalarProperty Name="blitz2" ColumnName="blitz2" />
+                <ScalarProperty Name="blitz1" ColumnName="blitz1" />
+                <ScalarProperty Name="geo2" ColumnName="geo2" />
+                <ScalarProperty Name="geo1" ColumnName="geo1" />
+                <ScalarProperty Name="id_tarea" ColumnName="id_tarea" />
+                <ScalarProperty Name="id_archivo" ColumnName="id_archivo" />
+                <ScalarProperty Name="total_lineas" ColumnName="total_lineas" />
+                <ScalarProperty Name="lineas_procesadas" ColumnName="lineas_procesadas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAB_TAREA_ROW">
+            <EntityTypeMapping TypeName="nmmxModel.TAB_TAREA_ROW">
+              <MappingFragment StoreEntitySet="TAB_TAREA_ROW">
+                <ScalarProperty Name="id_row" ColumnName="id_row" />
+                <ScalarProperty Name="num_renglon" ColumnName="num_renglon" />
+                <ScalarProperty Name="id_tarea" ColumnName="id_tarea" />
+                <ScalarProperty Name="llamada_api" ColumnName="llamada_api" />
+                <ScalarProperty Name="resultado_api" ColumnName="resultado_api" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -41,7 +41,10 @@ Public Class clsResultado
     End Sub
     Public Sub LOAD(ByVal idRecord As String, ByRef cLoad As clsResultado)
         Dim rdrArchivoDato As DataSet
-        rdrArchivoDato = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO_DATA = '" & idRecord & "'")
+        'rdrArchivoDato = dsOpenDB("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO_DATA = '" & idRecord & "'")
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO_DATA = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idRecord
+        rdrArchivoDato = dsOpenDB(comm)
         If rdrArchivoDato.Tables(0).Rows.Count > 0 Then
             cLoad.ID_ARCHIVO_DATA = rdrArchivoDato.Tables(0).Rows(0).Item("ID_ARCHIVO_DATA")
             cLoad.ID_ARCHIVO = rdrArchivoDato.Tables(0).Rows(0).Item("ID_ARCHIVO")
@@ -77,7 +80,12 @@ Public Class clsResultado
         Dim cmdBuilder = New SqlCommandBuilder
         Dim dsDataset As New DataSet()
         Dim conSql As String = CONEXION()
-        daAdapter = New SqlDataAdapter("SELECT * FROM " & DTInsert & " WHERE ID_ARCHIVO_DATA = " & cSave.ID_ARCHIVO_DATA & "", conSql)
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ARCHIVOS_DATA WHERE ID_ARCHIVO_DATA = @PARAM1", New SqlConnection(conSql))
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = cSave.ID_ARCHIVO_DATA
+
+        'daAdapter = New SqlDataAdapter("SELECT * FROM " & DTInsert & " WHERE ID_ARCHIVO_DATA = " & cSave.ID_ARCHIVO_DATA & "", conSql)
+
+        daAdapter = New SqlDataAdapter(comm)
         cmdBuilder = New SqlCommandBuilder(daAdapter)
         daAdapter.Fill(dsDataset, DTInsert)
         'dsDataset.Tables(DTInsert).Rows(0)("ID_ARCHIVO") = cSave.ID_ARCHIVO

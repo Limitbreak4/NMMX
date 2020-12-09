@@ -32,6 +32,24 @@ Partial Public Class frmNewAssignment
     Protected WithEvents fu As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''chkGeo1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkGeo1 As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''chkGeo2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkGeo2 As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''chkBlitz1 control.
     '''</summary>
     '''<remarks>
@@ -59,6 +77,15 @@ Partial Public Class frmNewAssignment
     Protected WithEvents chkBlitz3 As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''UpdatePanel1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''cmdIniciaProces control.
     '''</summary>
     '''<remarks>
@@ -66,6 +93,15 @@ Partial Public Class frmNewAssignment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents cmdIniciaProces As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''UpdateProgress1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UpdateProgress1 As Global.System.Web.UI.UpdateProgress
 
     '''<summary>
     '''lbresult control.

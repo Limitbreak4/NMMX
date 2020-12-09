@@ -9,6 +9,7 @@ Public Class clsArchivo
     Public ARCHIVO As Byte()
     Public FLG_MARKETING As Boolean
     Public FLG_AGENCIA As Boolean
+    Public ID_CAMPAIGN As Integer
 
 
 
@@ -21,10 +22,14 @@ Public Class clsArchivo
         ARCHIVO = Nothing
         FLG_MARKETING = False
         FLG_AGENCIA = False
+        ID_CAMPAIGN = 0
     End Sub
     Public Sub LOAD(ByVal idRecord As String, ByRef cLoad As clsArchivo)
         Dim rdrArchivo As DataSet
-        rdrArchivo = dsOpenDB("SELECT * FROM ARCHIVOS WHERE ID_ARCHIVO = '" & idRecord & "'")
+        'rdrArchivo = dsOpenDB("SELECT * FROM ARCHIVOS WHERE ID_ARCHIVO = '" & idRecord & "'")
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM ARCHIVOS (NOLOCK) WHERE ID_ARCHIVO = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.BigInt).Value = idRecord
+        rdrArchivo = dsOpenDB(comm)
         If rdrArchivo.Tables(0).Rows.Count > 0 Then
             cLoad.ID_ARCHIVO = rdrArchivo.Tables(0).Rows(0).Item("ID_ARCHIVO")
             cLoad.FH_CARGA = rdrArchivo.Tables(0).Rows(0).Item("FH_CARGA")
@@ -32,7 +37,7 @@ Public Class clsArchivo
             cLoad.ARCHIVO = rdrArchivo.Tables(0).Rows(0).Item("ARCHIVO")
             cLoad.FLG_MARKETING = rdrArchivo.Tables(0).Rows(0).Item("FLG_MARKETING")
             cLoad.FLG_AGENCIA = rdrArchivo.Tables(0).Rows(0).Item("FLG_AGENCIA")
-
+            cLoad.ID_CAMPAIGN = rdrArchivo.Tables(0).Rows(0).ItemArray("ID_CAMPAIGN")
         End If
         CIERRA_DATASET(rdrArchivo)
     End Sub
@@ -57,6 +62,7 @@ Public Class clsArchivo
         dsDataset.Tables("ARCHIVOS").Rows(0)("ARCHIVO") = cSave.ARCHIVO
         dsDataset.Tables("ARCHIVOS").Rows(0)("FLG_MARKETING") = cSave.FLG_MARKETING
         dsDataset.Tables("ARCHIVOS").Rows(0)("FLG_AGENCIA") = cSave.FLG_AGENCIA
+        dsDataset.Tables("ARCHIVOS").Rows(0)("ID_CAMPAIGN") = cSave.ID_CAMPAIGN
 
         If dsDataset.HasChanges Then
             daAdapter.Update(dsDataset, "ARCHIVOS")

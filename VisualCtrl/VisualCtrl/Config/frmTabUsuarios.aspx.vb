@@ -1,4 +1,5 @@
-﻿Public Class frmTabUsuarios
+﻿Imports System.Data.SqlClient
+Public Class frmTabUsuarios
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -10,12 +11,14 @@
         End If
 
         If Not IsPostBack Then
-            INICIALIZAR_FORM
+            INICIALIZAR_FORM()
         End If
     End Sub
     Private Sub INICIALIZAR_FORM()
-        'CARGAR_COMBO(dropRol, "SELECT * FROM TAB_ROLES WHERE FLG_CANC = 0 ORDER BY DESC_ROLE", "ID_ROLE", "DESC_ROLE")
-        CARGAR_COMBO(dropAgencia, "SELECT * FROM TAB_AGENCIA WHERE FLG_CANC = 0 ORDER BY DESC_AGENCIA", "ID_AGENCIA", "DESC_AGENCIA", True)
+        'CARGAR_COMBO(dropRol, "*", "TAB_ROLES", "FLG_CANC = 0 ORDER BY DESC_ROLE", "ID_ROLE", "", "DESC_ROLE", True)
+        'CARGAR_COMBO(dropAgencia, "*", "TAB_AGENCIA", "FLG_CANC = 0 ORDER BY DESC_AGENCIA", "ID_AGENCIA", "", "DESC_AGENCIA", True)
+        CARGAR_COMBO(dropRol, New SqlCommand("SELECT * FROM TAB_ROLES (NOLOCK) WHERE FLG_CANC = 0 ORDER BY DESC_ROLE"), "ID_ROLE", "", "DESC_ROLE", True)
+        CARGAR_COMBO(dropAgencia, New SqlCommand("SELECT * FROM TAB_AGENCIA (NOLOCK) WHERE FLG_CANC = 0 ORDER BY DESC_AGENCIA"), "ID_AGENCIA", "", "DESC_AGENCIA", True)
     End Sub
     Protected Sub LIMPIARbutton_Click(sender As Object, e As ImageClickEventArgs) Handles LIMPIARbutton.Click
         LIMPIAR_CAMPOS()
@@ -65,7 +68,7 @@
             cUsuario.flgCanc = chkflgCanc.Checked
             cUsuario.FLG_CONTACTO_AGENCIA = chkContacto.Checked
             cUsuario.SAVE(cUsuario)
-            msg("NEW USER ACCEPTED")
+            msg("New USER ACCEPTED")
         End If
     End Sub
     Private Function ValidaObligatorios() As Boolean
@@ -82,37 +85,60 @@
     End Sub
 
     Protected Sub txtidUsuario_TextChanged(sender As Object, e As EventArgs) Handles txtidUsuario.TextChanged
-        If bEXISTE_REGISTRO("SELECT * FROM TAB_USUARIOS WHERE ID_USUARIO = '" & txtidUsuario.Text & "'") Then
+        Dim comm As SqlCommand = New SqlCommand("SELECT * FROM TAB_USUARIOS (NOLOCK) WHERE ID_USUARIO = @PARAM1")
+        comm.Parameters.Add("@PARAM1", SqlDbType.VarChar).Value = txtidUsuario.Text
+
+        If bEXISTE_REGISTRO(comm) Then
             cargaUsuario(txtidUsuario.Text)
         End If
     End Sub
 
     Protected Sub BUSCARbutton_Click(sender As Object, e As ImageClickEventArgs) Handles BUSCARbutton.Click
         Dim rdrUsuarios As DataSet
-        Dim sSql As String = "SELECT * FROM TAB_USUARIOS "
-        sSql &= "INNER JOIN TAB_ROLES ON TAB_ROLES.ID_ROLE = TAB_USUARIOS.ID_ROLE "
-        sSql &= "WHERE ID_USUARIO IS NOT NULL "
+        Dim sel As String = "SELECT * FROM TAB_USUARIOS INNER JOIN TAB_ROLES ON TAB_ROLES.ID_ROLE = TAB_USUARIOS.ID_ROLE WHERE ID_USUARIO IS NOT NULL "
         If txtNombreCompleto.Text <> "" Then
-            sSql &= "AND NOMBRE LIKE '%" & txtNombreCompleto.Text.Replace(" ", "%") & "%'"
+            sel &= "AND NOMBRE LIKE @PARAM1 "
         End If
         If txtTelefono.Text <> "" Then
-            sSql &= "AND TELEFONO = '" & txtTelefono.Text & "' "
+            sel &= "AND TELEFONO = @PARAM2 "
         End If
         If txtEmail.Text <> "" Then
-            sSql &= "AND EMAIL = '" & txtEmail.Text & "' "
+            sel &= "AND EMAIL = @PARAM3 "
         End If
         If chkflgCanc.Checked Then
-            sSql &= "AND FLG_CANC = " & chkflgCanc.Checked & " "
+            sel &= "AND FLG_CANC = @PARAM4 "
         End If
         If chkAdmin.Checked Then
-            sSql &= "AND FLG_ADMIN = " & chkAdmin.Checked & " "
+            sel &= "AND FLG_ADMIN = @PARAM5 "
         End If
 
         If chkContacto.Checked Then
-            sSql &= "AND FLG_CONTACTO_AGENCIA = " & chkContacto.Checked & " "
+            sel &= "AND FLG_CONTACTO_AGENCIA = @PARAM6 "
         End If
 
-        rdrUsuarios = dsOpenDB(sSql)
+        Dim comm As SqlCommand = New SqlCommand(sel)
+
+
+        If txtNombreCompleto.Text <> "" Then
+            comm.Parameters.Add("@PARAM1", SqlDbType.VarChar).Value = "%" & txtNombreCompleto.Text & "%"
+        End If
+        If txtTelefono.Text <> "" Then
+            comm.Parameters.Add("@PARAM2", SqlDbType.VarChar).Value = txtTelefono.Text
+        End If
+        If txtEmail.Text <> "" Then
+            comm.Parameters.Add("@PARAM3", SqlDbType.VarChar).Value = txtEmail.Text
+        End If
+        If chkflgCanc.Checked Then
+            comm.Parameters.Add("@PARAM4", SqlDbType.Bit).Value = chkflgCanc.Checked
+        End If
+        If chkAdmin.Checked Then
+            comm.Parameters.Add("@PARAM5", SqlDbType.Bit).Value = chkAdmin.Checked
+        End If
+        If chkContacto.Checked Then
+            comm.Parameters.Add("@PARAM1", SqlDbType.Bit).Value = chkContacto.Checked
+        End If
+
+        rdrUsuarios = dsOpenDB(comm)
         grdSEARCH.DataSource = rdrUsuarios.Tables(0)
         grdSEARCH.DataBind()
         mpSEARCH.Show()
@@ -143,5 +169,9 @@
         chkAdmin.Checked = cUsuario.flgAdmin
         chkflgCanc.Checked = cUsuario.flgCanc
         chkContacto.Checked = cUsuario.FLG_CONTACTO_AGENCIA
+    End Sub
+
+    Protected Sub dropAgencia_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dropAgencia.SelectedIndexChanged
+
     End Sub
 End Class
